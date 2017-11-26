@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.cxz.headline.module.base.BaseActivity;
+import com.cxz.headline.module.news.NewsTabLayout;
 import com.cxz.headline.widget.helper.BottomNavigationViewHelper;
 
 import butterknife.BindView;
@@ -20,15 +22,22 @@ import butterknife.BindView;
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private final static String TAG = "MainActivity";
+    private static final int FRAGMENT_NEWS = 0x01;
+    private static final int FRAGMENT_PHOTO = 0x02;
+    private static final int FRAGMENT_VIDEO = 0x03;
+    private static final int FRAGMENT_MEDIA = 0x04;
 
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    Toolbar mToolbar;
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bottomNavigation;
     @BindView(R.id.drawer_layout)
-    DrawerLayout drawerLayout;
+    DrawerLayout mDrawerLayout;
     @BindView(R.id.nav_view)
-    NavigationView navigationView;
+    NavigationView mNavigationView;
+
+    private NewsTabLayout mNewsTabLayout;
+    private int mPosition = -1;
 
     @Override
     protected int attachLayoutId() {
@@ -37,14 +46,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        toolbar.inflateMenu(R.menu.menu_activity_main);
+        mToolbar.inflateMenu(R.menu.menu_activity_main);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigation);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_news:
+                        showFragment(FRAGMENT_NEWS);
                         break;
                 }
                 return true;
@@ -52,6 +62,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         });
 
         initDrawerLayout();
+
+        if (savedInstanceState != null) {
+
+        } else {
+            showFragment(FRAGMENT_NEWS);
+        }
     }
 
     private void initDrawerLayout() {
@@ -59,15 +75,40 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
             localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
             //将侧边栏顶部延伸至status bar
-            drawerLayout.setFitsSystemWindows(true);
+            mDrawerLayout.setFitsSystemWindows(true);
             //将主页面顶部延伸至status bar
-            drawerLayout.setClipToPadding(false);
+            mDrawerLayout.setClipToPadding(false);
         }
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView.setNavigationItemSelectedListener(this);
+        mNavigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void showFragment(int index) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        hideFragment(ft);
+        mPosition = index;
+        switch (index) {
+            case FRAGMENT_NEWS:
+                mToolbar.setTitle(R.string.app_name);
+                if (mNewsTabLayout == null) {
+                    mNewsTabLayout = NewsTabLayout.getInstance();
+                    ft.add(R.id.container, mNewsTabLayout, NewsTabLayout.class.getName());
+                } else {
+                    ft.show(mNewsTabLayout);
+                }
+                break;
+        }
+        ft.commit();
+    }
+
+    private void hideFragment(FragmentTransaction ft) {
+        // 如果不为空，就先隐藏起来
+        if (mNewsTabLayout != null) {
+            ft.hide(mNewsTabLayout);
+        }
     }
 
     @Override
