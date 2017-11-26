@@ -1,7 +1,7 @@
 package com.cxz.headline;
 
-import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDexApplication;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.cxz.headline.util.SettingUtil;
@@ -10,7 +10,7 @@ import com.cxz.headline.util.SettingUtil;
  * Created by chenxz on 2017/11/25.
  */
 
-public class App extends Application {
+public class App extends MultiDexApplication {
 
     private static App instance = null;
 
