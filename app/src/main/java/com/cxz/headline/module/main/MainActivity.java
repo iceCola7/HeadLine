@@ -1,4 +1,4 @@
-package com.cxz.headline;
+package com.cxz.headline.module.main;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -13,13 +13,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
-import com.cxz.headline.module.base.BaseActivity;
+import com.cxz.headline.R;
+import com.cxz.headline.app.App;
+import com.cxz.headline.base.BaseActivity;
+import com.cxz.headline.di.component.DaggerMainActivityComponent;
+import com.cxz.headline.di.module.MainActivityModule;
 import com.cxz.headline.module.news.NewsTabLayout;
 import com.cxz.headline.widget.helper.BottomNavigationViewHelper;
 
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View, NavigationView.OnNavigationItemSelectedListener {
 
     private final static String TAG = "MainActivity";
     private static final int FRAGMENT_NEWS = 0x01;
@@ -40,7 +44,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private int mPosition = -1;
 
     @Override
-    protected int attachLayoutId() {
+    protected int attachLayoutRes() {
         return R.layout.activity_main;
     }
 
@@ -68,6 +72,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else {
             showFragment(FRAGMENT_NEWS);
         }
+    }
+
+    @Override
+    protected void initInject() {
+        DaggerMainActivityComponent.builder()
+                .appComponent(App.getAppComponent())
+                .mainActivityModule(new MainActivityModule(this))
+                .build()
+                .inject(this);
     }
 
     private void initDrawerLayout() {
@@ -128,5 +141,25 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showErrorMsg(String msg) {
+
     }
 }

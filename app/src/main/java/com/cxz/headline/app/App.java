@@ -1,9 +1,11 @@
-package com.cxz.headline;
+package com.cxz.headline.app;
 
-import android.content.Context;
 import android.support.multidex.MultiDexApplication;
 import android.support.v7.app.AppCompatDelegate;
 
+import com.cxz.headline.di.component.AppComponent;
+import com.cxz.headline.di.component.DaggerAppComponent;
+import com.cxz.headline.di.module.AppModule;
 import com.cxz.headline.util.SettingUtil;
 
 /**
@@ -12,25 +14,17 @@ import com.cxz.headline.util.SettingUtil;
 
 public class App extends MultiDexApplication {
 
-    private static App instance = null;
+    private static App instance;
+    public static AppComponent appComponent = null;
 
-    private static Context context = null;
-
-    public static Context getContext() {
-        return context;
-    }
-
-    public static App getInstance() {
-        if (instance == null) {
-            instance = new App();
-        }
+    public static synchronized App getInstance() {
         return instance;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        context = getApplicationContext();
+        instance = this;
         initTheme();
     }
 
@@ -44,5 +38,14 @@ public class App extends MultiDexApplication {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
+    }
+
+    public static AppComponent getAppComponent() {
+        if (appComponent == null) {
+            appComponent = DaggerAppComponent.builder()
+                    .appModule(new AppModule(instance))
+                    .build();
+        }
+        return appComponent;
     }
 }
