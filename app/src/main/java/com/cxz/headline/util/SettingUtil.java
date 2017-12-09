@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
 
-import com.cxz.headline.App;
+import com.cxz.headline.app.App;
 import com.cxz.headline.R;
 
 /**
@@ -13,7 +13,7 @@ import com.cxz.headline.R;
 
 public class SettingUtil {
 
-    private SharedPreferences mSp = PreferenceManager.getDefaultSharedPreferences(App.getContext());
+    private SharedPreferences mSp = PreferenceManager.getDefaultSharedPreferences(App.getInstance());
 
     private static SettingUtil instance = null;
 
@@ -43,7 +43,7 @@ public class SettingUtil {
      * @return
      */
     public int getColor() {
-        int defaultColor = App.getContext().getResources().getColor(R.color.colorPrimary);
+        int defaultColor = App.getInstance().getResources().getColor(R.color.colorPrimary);
         int color = mSp.getInt("color", defaultColor);
         if ((color != 0) && Color.alpha(color) != 255) {
             return defaultColor;
