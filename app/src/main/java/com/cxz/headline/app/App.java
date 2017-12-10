@@ -3,10 +3,14 @@ package com.cxz.headline.app;
 import android.support.multidex.MultiDexApplication;
 import android.support.v7.app.AppCompatDelegate;
 
+import com.cxz.headline.database.RealmHelper;
 import com.cxz.headline.di.component.AppComponent;
 import com.cxz.headline.di.component.DaggerAppComponent;
 import com.cxz.headline.di.module.AppModule;
 import com.cxz.headline.util.SettingUtil;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 /**
  * Created by chenxz on 2017/11/25.
@@ -26,6 +30,17 @@ public class App extends MultiDexApplication {
         super.onCreate();
         instance = this;
         initTheme();
+        initDatabase();
+    }
+
+    private void initDatabase(){
+        Realm.init(this);
+        // 使用默认配置
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                .name(RealmHelper.DB_NAME)
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(config);
     }
 
     private void initTheme() {
