@@ -18,7 +18,7 @@ import com.cxz.headline.app.App;
 import com.cxz.headline.base.BaseActivity;
 import com.cxz.headline.di.component.DaggerMainActivityComponent;
 import com.cxz.headline.di.module.MainActivityModule;
-import com.cxz.headline.module.news.NewsTabLayout;
+import com.cxz.headline.module.news.main.NewsMainFragment;
 import com.cxz.headline.widget.helper.BottomNavigationViewHelper;
 
 import butterknife.BindView;
@@ -40,7 +40,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @BindView(R.id.nav_view)
     NavigationView mNavigationView;
 
-    private NewsTabLayout mNewsTabLayout;
+    private NewsMainFragment mNewsMainFragment;
     private int mPosition = -1;
 
     @Override
@@ -106,11 +106,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         switch (index) {
             case FRAGMENT_NEWS:
                 mToolbar.setTitle(R.string.app_name);
-                if (mNewsTabLayout == null) {
-                    mNewsTabLayout = NewsTabLayout.getInstance();
-                    ft.add(R.id.container, mNewsTabLayout, NewsTabLayout.class.getName());
+                if (mNewsMainFragment == null) {
+                    mNewsMainFragment = NewsMainFragment.getInstance();
+                    ft.add(R.id.container, mNewsMainFragment, NewsMainFragment.class.getName());
                 } else {
-                    ft.show(mNewsTabLayout);
+                    ft.show(mNewsMainFragment);
                 }
                 break;
         }
@@ -119,8 +119,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     private void hideFragment(FragmentTransaction ft) {
         // 如果不为空，就先隐藏起来
-        if (mNewsTabLayout != null) {
-            ft.hide(mNewsTabLayout);
+        if (mNewsMainFragment != null) {
+            ft.hide(mNewsMainFragment);
         }
     }
 
