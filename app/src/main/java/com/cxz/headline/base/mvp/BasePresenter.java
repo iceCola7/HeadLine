@@ -6,6 +6,8 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.util.Log;
 
+import com.cxz.headline.util.XLog;
+
 import org.simple.eventbus.EventBus;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -39,7 +41,7 @@ public class BasePresenter<M extends IModel, V extends IView> implements IPresen
 
     @Override
     public void onStart() {
-        Log.e(TAG, "onStart: " + useEventBus());
+        XLog.e(TAG, "onStart: EventBus::" + useEventBus());
         //将 LifecycleObserver 注册给 LifecycleOwner 后 @OnLifecycleEvent 才可以正常使用
         if (mView != null && mView instanceof LifecycleOwner) {
             ((LifecycleOwner) mView).getLifecycle().addObserver(this);
@@ -54,7 +56,6 @@ public class BasePresenter<M extends IModel, V extends IView> implements IPresen
 
     @Override
     public void onDestroy() {
-        Log.e(TAG, "onDestroy: " + useEventBus());
         if (useEventBus()) {
             EventBus.getDefault().unregister(this);
         }
@@ -68,7 +69,7 @@ public class BasePresenter<M extends IModel, V extends IView> implements IPresen
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     void onDestroy(LifecycleOwner owner) {
-        Log.e(TAG, "onDestroy: LifecycleOwner");
+        XLog.e(TAG, "onDestroy: LifecycleOwner");
         owner.getLifecycle().removeObserver(this);
     }
 
