@@ -6,6 +6,8 @@ package com.cxz.headline.http;
 
 public class Api {
 
-    public final static String HEAD_LINE_HOST = "";
+    public static final String HEAD_LINE_HOST = "";
+
+    public static final String NEWS_HOST = "http://is.snssdk.com/";
 
 }

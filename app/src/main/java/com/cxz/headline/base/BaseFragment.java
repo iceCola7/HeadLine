@@ -45,7 +45,7 @@ public abstract class BaseFragment<P extends IPresenter> extends RxFragment impl
      */
     protected abstract void initInject();
 
-    protected abstract void initView(View view, Bundle savedInstanceState);
+    protected abstract void initView(Bundle savedInstanceState);
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,19 +59,14 @@ public abstract class BaseFragment<P extends IPresenter> extends RxFragment impl
         if (mRootView == null) {
             mRootView = inflater.inflate(attachLayoutRes(), null);
             mUnbinder = ButterKnife.bind(this, mRootView);
+            initInject();
+            initView(savedInstanceState);
         }
         ViewGroup parent = (ViewGroup) mRootView.getParent();
         if (parent != null) {
             parent.removeView(mRootView);
         }
         return mRootView;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initInject();
-        initView(view, savedInstanceState);
     }
 
     @Override
@@ -85,6 +80,7 @@ public abstract class BaseFragment<P extends IPresenter> extends RxFragment impl
             mPresenter.onDestroy();
         }
         this.mPresenter = null;
+        this.mContext = null;
     }
 
     @Override

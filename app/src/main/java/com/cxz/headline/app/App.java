@@ -8,6 +8,7 @@ import com.cxz.headline.di.component.AppComponent;
 import com.cxz.headline.di.component.DaggerAppComponent;
 import com.cxz.headline.di.module.AppModule;
 import com.cxz.headline.util.SettingUtil;
+import com.squareup.leakcanary.LeakCanary;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -29,11 +30,25 @@ public class App extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        init();
+    }
+
+    private void init() {
+        initLeakCanary();
         initTheme();
         initDatabase();
     }
 
-    private void initDatabase(){
+    private void initLeakCanary() {
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
+    }
+
+    private void initDatabase() {
         Realm.init(this);
         // 使用默认配置
         RealmConfiguration config = new RealmConfiguration.Builder()

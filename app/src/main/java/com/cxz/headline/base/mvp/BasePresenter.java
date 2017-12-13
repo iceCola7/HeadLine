@@ -4,9 +4,6 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.OnLifecycleEvent;
-import android.util.Log;
-
-import com.cxz.headline.util.XLog;
 
 import org.simple.eventbus.EventBus;
 
@@ -41,7 +38,6 @@ public class BasePresenter<M extends IModel, V extends IView> implements IPresen
 
     @Override
     public void onStart() {
-        XLog.e(TAG, "onStart: EventBus::" + useEventBus());
         //将 LifecycleObserver 注册给 LifecycleOwner 后 @OnLifecycleEvent 才可以正常使用
         if (mView != null && mView instanceof LifecycleOwner) {
             ((LifecycleOwner) mView).getLifecycle().addObserver(this);
@@ -69,7 +65,6 @@ public class BasePresenter<M extends IModel, V extends IView> implements IPresen
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     void onDestroy(LifecycleOwner owner) {
-        XLog.e(TAG, "onDestroy: LifecycleOwner");
         owner.getLifecycle().removeObserver(this);
     }
 

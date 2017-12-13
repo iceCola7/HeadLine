@@ -16,7 +16,7 @@ import com.cxz.headline.bean.news.NewsChannelBean;
 import com.cxz.headline.database.dao.NewsChannelDao;
 import com.cxz.headline.di.component.DaggerNewsMainFragmentComponent;
 import com.cxz.headline.di.module.NewsMainFragmentModule;
-import com.cxz.headline.module.news.channel.ChannelFragment;
+import com.cxz.headline.module.news.article.ArticleFragment;
 import com.cxz.headline.util.SettingUtil;
 
 import java.util.ArrayList;
@@ -30,8 +30,6 @@ import butterknife.BindView;
  */
 
 public class NewsMainFragment extends BaseFragment<NewsMainPresenter> implements NewsMainContract.View {
-
-    private static NewsMainFragment instance = null;
 
     @BindView(R.id.tab_layout_news)
     TabLayout mTabLayout;
@@ -49,10 +47,8 @@ public class NewsMainFragment extends BaseFragment<NewsMainPresenter> implements
     // 用来存放 Fragment，以便下次直接取
     private HashMap<String, Fragment> mHashMap = new HashMap<>();
 
-    public static NewsMainFragment getInstance() {
-        if (instance == null)
-            instance = new NewsMainFragment();
-        return instance;
+    public static NewsMainFragment newInstance(){
+        return new NewsMainFragment();
     }
 
     @Override
@@ -90,7 +86,7 @@ public class NewsMainFragment extends BaseFragment<NewsMainPresenter> implements
     }
 
     @Override
-    protected void initView(View view, Bundle savedInstanceState) {
+    protected void initView(Bundle savedInstanceState) {
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         iv_add_channel.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +118,7 @@ public class NewsMainFragment extends BaseFragment<NewsMainPresenter> implements
             if (mHashMap.containsKey(channelId)) {
                 fragment = mHashMap.get(channelId);
             } else {
-                fragment = ChannelFragment.newInstance(channelId);
+                fragment = ArticleFragment.newInstance(channelId);
                 mHashMap.put(channelId, fragment);
             }
             mFragmentLists.add(fragment);

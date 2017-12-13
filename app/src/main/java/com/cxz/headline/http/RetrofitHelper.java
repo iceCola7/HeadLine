@@ -3,6 +3,7 @@ package com.cxz.headline.http;
 import com.cxz.headline.app.App;
 import com.cxz.headline.http.interceptor.LoggingInterceptor;
 import com.cxz.headline.http.interceptor.RewriteCacheControlInterceptor;
+import com.cxz.headline.http.service.NewsService;
 import com.cxz.headline.http.service.RetrofitService;
 
 import java.util.HashMap;
@@ -20,6 +21,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RetrofitHelper {
+
+    private final String TAG = this.getClass().getSimpleName();
 
     // 网络请求的超时时间
     private static final long DEFAULT_TIME_OUT = 30;
@@ -66,6 +69,8 @@ public class RetrofitHelper {
         String baseUrl = "";
         if (service.equals(RetrofitService.class)) {
             baseUrl = Api.HEAD_LINE_HOST;
+        } else if (service.equals(NewsService.class)) {
+            baseUrl = Api.NEWS_HOST;
         }
         return baseUrl;
     }

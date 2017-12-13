@@ -107,7 +107,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             case FRAGMENT_NEWS:
                 mToolbar.setTitle(R.string.app_name);
                 if (mNewsMainFragment == null) {
-                    mNewsMainFragment = NewsMainFragment.getInstance();
+                    mNewsMainFragment = NewsMainFragment.newInstance();
                     ft.add(R.id.container, mNewsMainFragment, NewsMainFragment.class.getName());
                 } else {
                     ft.show(mNewsMainFragment);
