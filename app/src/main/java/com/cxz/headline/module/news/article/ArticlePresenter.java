@@ -47,7 +47,6 @@ public class ArticlePresenter extends BasePresenter<ArticleContract.Model, Artic
                     }
                 })
                 .toList()
-                .unsubscribeOn(Schedulers.io())
                 .compose(mView.<List<NewsMultiArticleDataBean>>bindToLife())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<NewsMultiArticleDataBean>>() {

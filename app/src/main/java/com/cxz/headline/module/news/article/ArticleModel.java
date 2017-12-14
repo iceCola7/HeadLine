@@ -22,11 +22,8 @@ import io.rx_cache2.Reply;
 @FragmentScope
 public class ArticleModel extends BaseModel implements ArticleContract.Model {
 
-    private RetrofitHelper mRetrofitHelper;
-
     @Inject
     public ArticleModel() {
-        mRetrofitHelper = RetrofitHelper.getInstance();
     }
 
     @Override
@@ -45,19 +42,5 @@ public class ArticleModel extends BaseModel implements ArticleContract.Model {
                                 });
                     }
                 });
-//        return Flowable.just(mRetrofitHelper.obtainRetrofitService(NewsService.class).getNewsArticleList(category, minBehotTime))
-//                .flatMap(new Function<Flowable<NewsMultiArticleBean>, Publisher<NewsMultiArticleBean>>() {
-//                    @Override
-//                    public Publisher<NewsMultiArticleBean> apply(Flowable<NewsMultiArticleBean> flowable) throws Exception {
-//                        return mRetrofitHelper.obtainCacheService(NewsCacheProvider.class)
-//                                .getNewsArticleList(flowable, new DynamicKey(minBehotTime), new EvictDynamicKey(true))
-//                                .map(new Function<Reply<NewsMultiArticleBean>, NewsMultiArticleBean>() {
-//                                    @Override
-//                                    public NewsMultiArticleBean apply(Reply<NewsMultiArticleBean> newsMultiChannelBeanReply) throws Exception {
-//                                        return newsMultiChannelBeanReply.getData();
-//                                    }
-//                                });
-//                    }
-//                });
     }
 }

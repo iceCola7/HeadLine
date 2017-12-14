@@ -41,7 +41,7 @@ public class LoggingInterceptor implements Interceptor {
 
         final Response response = chain.proceed(request);
 
-        XLog.e("请求网址: \n" + request.url() + " \n " + "请求头部信息：\n" + request.headers() + "响应头部信息：\n" + response.headers());
+        XLog.i("请求网址: \n" + request.url() + " \n " + "请求头部信息：\n" + request.headers() + "响应头部信息：\n" + response.headers());
 
         final ResponseBody responseBody = response.body();
         final long contentLength = responseBody.contentLength();
