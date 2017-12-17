@@ -15,8 +15,8 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <com.cxz.headline.widget.CircleImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/avatar_width"
+        android:layout_height="@dimen/avatar_height"
         android:layout_gravity="center_horizontal"
         android:src="@mipmap/ic_launcher_circle"
         app:civ_border_color="@android:color/white"

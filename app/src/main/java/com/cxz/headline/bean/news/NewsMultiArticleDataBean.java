@@ -121,7 +121,7 @@ public class NewsMultiArticleDataBean implements Parcelable {
     private String article_url;
     private int share_count;
     private String stick_label;
-    private int publish_time;
+    private long publish_time;
     private boolean has_image;
     private int cell_layout_style;
     private long tag_id;
@@ -270,7 +270,7 @@ public class NewsMultiArticleDataBean implements Parcelable {
         dest.writeString(article_url);
         dest.writeInt(share_count);
         dest.writeString(stick_label);
-        dest.writeInt(publish_time);
+        dest.writeLong(publish_time);
         dest.writeByte((byte) (has_image ? 1 : 0));
         dest.writeInt(cell_layout_style);
         dest.writeLong(tag_id);
@@ -565,7 +565,7 @@ public class NewsMultiArticleDataBean implements Parcelable {
         this.stick_label = stick_label;
     }
 
-    public int getPublish_time() {
+    public long getPublish_time() {
         return publish_time;
     }
 
