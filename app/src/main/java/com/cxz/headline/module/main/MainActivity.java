@@ -25,7 +25,6 @@ import butterknife.BindView;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View, NavigationView.OnNavigationItemSelectedListener {
 
-    private final static String TAG = "MainActivity";
     private static final int FRAGMENT_NEWS = 0x01;
     private static final int FRAGMENT_PHOTO = 0x02;
     private static final int FRAGMENT_VIDEO = 0x03;
@@ -50,9 +49,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        setSupportActionBar(mToolbar);
         mToolbar.inflateMenu(R.menu.menu_activity_main);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigation);
-        setSupportActionBar(mToolbar);
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

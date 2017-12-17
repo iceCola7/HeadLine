@@ -5,6 +5,7 @@
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
     app:cardBackgroundColor="@color/viewBackground"
     app:cardElevation="1dp">
 
@@ -61,8 +62,7 @@
                 android:ellipsize="end"
                 android:maxLength="30"
                 android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                tools:text="新闻源 - 2222条评论 - 1小时前" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                     android:padding="4dp"
                     android:scaleType="center"
                     app:srcCompat="@drawable/ic_dots_grey500_24dp"
-                    tools:ignore="ContentDescription"/>
+                    tools:ignore="ContentDescription" />
             </RelativeLayout>
 
         </LinearLayout>

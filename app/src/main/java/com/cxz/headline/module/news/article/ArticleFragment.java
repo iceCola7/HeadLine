@@ -88,12 +88,20 @@ public class ArticleFragment extends BaseFragment<ArticlePresenter> implements A
 
     @Override
     public void updateNewsArticleList(List<NewsMultiArticleDataBean> lists) {
-        mPullLoadMoreRecyclerView.setRefreshing(false);
+        mPullLoadMoreRecyclerView.setPullLoadMoreCompleted();
         if (mAdapter == null) {
             mAdapter = new ArticleListAdapter(getActivity(), R.layout.item_article_list, lists);
+            mPullLoadMoreRecyclerView.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
+        } else {
+            mAdapter.setDatas(lists);
         }
-        mPullLoadMoreRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void updateMoreNewsArticleList(List<NewsMultiArticleDataBean> lists) {
+        mPullLoadMoreRecyclerView.setPullLoadMoreCompleted();
+        mAdapter.appendDatas(lists);
     }
 
     @Override
@@ -104,7 +112,7 @@ public class ArticleFragment extends BaseFragment<ArticlePresenter> implements A
 
     @Override
     public void onLoadMore() {
-
+        mPresenter.loadMoreNewsArticleList(categoryId, TimeUtil.getCurrentTimeStamp());
     }
 
 }

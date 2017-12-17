@@ -84,7 +84,8 @@ dependencies {
     implementation 'com.cxz.recyclerview:pullloadrecyclerview:1.0.0'
     implementation 'com.zhy:base-rvadapter:3.0.3'
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.4.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
+//    implementation 'com.github.bumptech.glide:glide:4.4.0'
+//    annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
 
 }

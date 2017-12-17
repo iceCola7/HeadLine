@@ -20,6 +20,16 @@ public class ArticleListAdapter extends CommonAdapter<NewsMultiArticleDataBean> 
 
     private Context context;
 
+    public void appendDatas(List<NewsMultiArticleDataBean> dataBeans) {
+        mDatas.addAll(dataBeans);
+        notifyDataSetChanged();
+    }
+
+    public void setDatas(List<NewsMultiArticleDataBean> dataBeans) {
+        mDatas.clear();
+        appendDatas(dataBeans);
+    }
+
     public ArticleListAdapter(Context context, int layoutId, List<NewsMultiArticleDataBean> datas) {
         super(context, layoutId, datas);
         this.context = context;
@@ -32,6 +42,7 @@ public class ArticleListAdapter extends CommonAdapter<NewsMultiArticleDataBean> 
         holder.setText(R.id.tv_title, bean.getTitle())
                 .setText(R.id.tv_abstract, bean.getAbstractX())
                 .setText(R.id.tv_extra, extra);
-        Glide.with(context).load(bean.getUser_info().getAvatar_url()).into((ImageView) holder.getView(R.id.iv_avatar));
+        ImageView imageView = holder.getView(R.id.iv_avatar);
+        Glide.with(context).load(bean.getUser_info().getAvatar_url()).into(imageView);
     }
 }

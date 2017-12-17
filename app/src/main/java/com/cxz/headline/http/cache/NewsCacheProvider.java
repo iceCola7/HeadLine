@@ -20,4 +20,8 @@ public interface NewsCacheProvider {
     @LifeCache(duration = 3, timeUnit = TimeUnit.MINUTES)
     Observable<Reply<NewsMultiArticleBean>> getNewsArticleList(Observable<NewsMultiArticleBean> observable, DynamicKey dynamicKey, EvictDynamicKey evictDynamicKey);
 
+    @LifeCache(duration = 3, timeUnit = TimeUnit.MINUTES)
+    Observable<Reply<NewsMultiArticleBean>> getMoreNewsArticleList(Observable<NewsMultiArticleBean> observable, DynamicKey dynamicKey, EvictDynamicKey evictDynamicKey);
+
+
 }

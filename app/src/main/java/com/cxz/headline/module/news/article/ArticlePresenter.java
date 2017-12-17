@@ -32,8 +32,7 @@ public class ArticlePresenter extends BasePresenter<ArticleContract.Model, Artic
 
     @Override
     public void loadNewsArticleList(String category, String minBehotTime) {
-
-        mModel.loadNewsArticleList(category, minBehotTime)
+        mModel.loadNewsArticleList(category, minBehotTime, true)
                 .compose(RxUtil.<NewsMultiArticleBean>rxSchedulerTransformer())
                 .switchMap(new Function<NewsMultiArticleBean, ObservableSource<NewsMultiArticleDataBean>>() {
                     @Override
@@ -51,6 +50,30 @@ public class ArticlePresenter extends BasePresenter<ArticleContract.Model, Artic
                     @Override
                     public void accept(List<NewsMultiArticleDataBean> newsMultiArticleDataBeans) throws Exception {
                         mView.updateNewsArticleList(newsMultiArticleDataBeans);
+                    }
+                });
+    }
+
+    @Override
+    public void loadMoreNewsArticleList(String category, String maxBehotTime) {
+        mModel.loadMoreNewsArticleList(category, maxBehotTime, false)
+                .compose(RxUtil.<NewsMultiArticleBean>rxSchedulerTransformer())
+                .switchMap(new Function<NewsMultiArticleBean, ObservableSource<NewsMultiArticleDataBean>>() {
+                    @Override
+                    public ObservableSource<NewsMultiArticleDataBean> apply(NewsMultiArticleBean newsMultiArticleBean) throws Exception {
+                        List<NewsMultiArticleDataBean> dataBeans = new ArrayList<>();
+                        for (NewsMultiArticleBean.DataBean dataBean : newsMultiArticleBean.getData()) {
+                            dataBeans.add(mGson.fromJson(dataBean.getContent(), NewsMultiArticleDataBean.class));
+                        }
+                        return Observable.fromIterable(dataBeans);
+                    }
+                })
+                .toList()
+                .compose(mView.<List<NewsMultiArticleDataBean>>bindToLife())
+                .subscribe(new Consumer<List<NewsMultiArticleDataBean>>() {
+                    @Override
+                    public void accept(List<NewsMultiArticleDataBean> newsMultiArticleDataBeans) throws Exception {
+                        mView.updateMoreNewsArticleList(newsMultiArticleDataBeans);
                     }
                 });
     }
