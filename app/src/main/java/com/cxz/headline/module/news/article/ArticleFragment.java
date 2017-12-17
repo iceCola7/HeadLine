@@ -1,16 +1,18 @@
 package com.cxz.headline.module.news.article;
 
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.cxz.headline.R;
+import com.cxz.headline.adapter.news.ArticleListAdapter;
 import com.cxz.headline.app.App;
 import com.cxz.headline.base.BaseFragment;
+import com.cxz.headline.bean.news.NewsMultiArticleDataBean;
 import com.cxz.headline.di.component.DaggerArticleFragmentComponent;
 import com.cxz.headline.di.module.ArticleFragmentModule;
 import com.cxz.headline.util.TimeUtil;
+import com.cxz.recyclerview.PullLoadMoreRecyclerView;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -18,16 +20,15 @@ import butterknife.BindView;
  * Created by chenxz on 2017/12/10.
  */
 
-public class ArticleFragment extends BaseFragment<ArticlePresenter> implements ArticleContract.View {
+public class ArticleFragment extends BaseFragment<ArticlePresenter> implements ArticleContract.View, PullLoadMoreRecyclerView.PullLoadMoreListener {
 
     private static String CATEGORY_ID = "categoryId";
 
-//    @BindView(R.id.recycler_view)
-//    RecyclerView mRecyclerView;
-//    @BindView(R.id.refresh_layout)
-//    SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.pullLoadMoreRecyclerView)
+    PullLoadMoreRecyclerView mPullLoadMoreRecyclerView;
 
     private String categoryId;
+    private ArticleListAdapter mAdapter;
 
     public static ArticleFragment newInstance(String categoryId) {
         ArticleFragment fragment = new ArticleFragment();
@@ -74,14 +75,36 @@ public class ArticleFragment extends BaseFragment<ArticlePresenter> implements A
     @Override
     protected void initView(Bundle savedInstanceState) {
         categoryId = getArguments().getString(CATEGORY_ID, "");
-        if (categoryId.equals("news_hot")) {
-            Log.e(TAG, "initView: " + categoryId);
-            mPresenter.loadNewsArticleList(categoryId, TimeUtil.getCurrentTimeStamp());
-        }
+
+        mPullLoadMoreRecyclerView.setLinearLayout();
+        mPullLoadMoreRecyclerView.setOnPullLoadMoreListener(this);
     }
 
     @Override
-    public void updateNewsArticleList() {
+    protected void lazyLoad() {
+        mPullLoadMoreRecyclerView.setRefreshing(true);
+        mPresenter.loadNewsArticleList(categoryId, TimeUtil.getCurrentTimeStamp());
+    }
+
+    @Override
+    public void updateNewsArticleList(List<NewsMultiArticleDataBean> lists) {
+        mPullLoadMoreRecyclerView.setRefreshing(false);
+        if (mAdapter == null) {
+            mAdapter = new ArticleListAdapter(getActivity(), R.layout.item_article_list, lists);
+        }
+        mPullLoadMoreRecyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onRefresh() {
+        mPullLoadMoreRecyclerView.setRefreshing(true);
+        mPresenter.loadNewsArticleList(categoryId, TimeUtil.getCurrentTimeStamp());
+    }
+
+    @Override
+    public void onLoadMore() {
 
     }
+
 }

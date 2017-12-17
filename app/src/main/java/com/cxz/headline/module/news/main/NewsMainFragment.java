@@ -47,7 +47,12 @@ public class NewsMainFragment extends BaseFragment<NewsMainPresenter> implements
     // 用来存放 Fragment，以便下次直接取
     private HashMap<String, Fragment> mHashMap = new HashMap<>();
 
-    public static NewsMainFragment newInstance(){
+//    private static NewsMainFragment instance;
+
+    public static NewsMainFragment newInstance() {
+//        if (instance == null) {
+//            instance = new NewsMainFragment();
+//        }
         return new NewsMainFragment();
     }
 
@@ -104,6 +109,11 @@ public class NewsMainFragment extends BaseFragment<NewsMainPresenter> implements
         mViewPager.setOffscreenPageLimit(mFragmentLists.size());
     }
 
+    @Override
+    protected void lazyLoad() {
+
+    }
+
     private void initTabs() {
         mFragmentLists = new ArrayList<>();
         mTitleLists = new ArrayList<>();
@@ -126,4 +136,9 @@ public class NewsMainFragment extends BaseFragment<NewsMainPresenter> implements
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+//        instance = null;
+    }
 }

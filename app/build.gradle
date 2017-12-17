@@ -81,4 +81,7 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 
+    implementation 'com.cxz.recyclerview:pullloadrecyclerview:1.0.0'
+    implementation 'com.zhy:base-rvadapter:3.0.3'
+
 }

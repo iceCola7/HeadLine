@@ -4,6 +4,9 @@ import com.cxz.headline.base.mvp.IModel;
 import com.cxz.headline.base.mvp.IPresenter;
 import com.cxz.headline.base.mvp.IView;
 import com.cxz.headline.bean.news.NewsMultiArticleBean;
+import com.cxz.headline.bean.news.NewsMultiArticleDataBean;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 
@@ -14,7 +17,7 @@ import io.reactivex.Observable;
 public interface ArticleContract {
 
     interface View extends IView {
-        void updateNewsArticleList();
+        void updateNewsArticleList(List<NewsMultiArticleDataBean> lists);
     }
 
     interface Presenter extends IPresenter {
