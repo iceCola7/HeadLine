@@ -51,6 +51,11 @@ public class ArticlePresenter extends BasePresenter<ArticleContract.Model, Artic
                     public void accept(List<NewsMultiArticleDataBean> newsMultiArticleDataBeans) throws Exception {
                         mView.updateNewsArticleList(newsMultiArticleDataBeans);
                     }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+
+                    }
                 });
     }
 
@@ -74,6 +79,11 @@ public class ArticlePresenter extends BasePresenter<ArticleContract.Model, Artic
                     @Override
                     public void accept(List<NewsMultiArticleDataBean> newsMultiArticleDataBeans) throws Exception {
                         mView.updateMoreNewsArticleList(newsMultiArticleDataBeans);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+
                     }
                 });
     }

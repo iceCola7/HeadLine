@@ -3,10 +3,11 @@ package com.cxz.headline.adapter.news;
 import android.content.Context;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.cxz.headline.R;
 import com.cxz.headline.bean.news.NewsMultiArticleDataBean;
 import com.cxz.headline.util.TimeUtil;
+import com.cxz.headline.util.imageloader.ImageLoader;
+import com.cxz.headline.util.imageloader.glide.GlideImageOptions;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
@@ -17,8 +18,6 @@ import java.util.List;
  */
 
 public class ArticleListAdapter extends CommonAdapter<NewsMultiArticleDataBean> {
-
-    private Context context;
 
     public void appendDatas(List<NewsMultiArticleDataBean> dataBeans) {
         mDatas.addAll(dataBeans);
@@ -32,7 +31,6 @@ public class ArticleListAdapter extends CommonAdapter<NewsMultiArticleDataBean> 
 
     public ArticleListAdapter(Context context, int layoutId, List<NewsMultiArticleDataBean> datas) {
         super(context, layoutId, datas);
-        this.context = context;
     }
 
     @Override
@@ -43,6 +41,13 @@ public class ArticleListAdapter extends CommonAdapter<NewsMultiArticleDataBean> 
                 .setText(R.id.tv_abstract, bean.getAbstractX())
                 .setText(R.id.tv_extra, extra);
         ImageView imageView = holder.getView(R.id.iv_avatar);
-        Glide.with(context).load(bean.getUser_info().getAvatar_url()).into(imageView);
+
+        // Glide.with(mContext).load(bean.getUser_info().getAvatar_url()).into(imageView);
+
+        GlideImageOptions options = GlideImageOptions.builder()
+                .url(bean.getUser_info().getAvatar_url())
+                .imageView(imageView)
+                .build();
+        ImageLoader.getInstance().loadImage(mContext, options);
     }
 }

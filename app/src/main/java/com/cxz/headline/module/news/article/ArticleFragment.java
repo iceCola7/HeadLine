@@ -90,7 +90,7 @@ public class ArticleFragment extends BaseFragment<ArticlePresenter> implements A
     public void updateNewsArticleList(List<NewsMultiArticleDataBean> lists) {
         mPullLoadMoreRecyclerView.setPullLoadMoreCompleted();
         if (mAdapter == null) {
-            mAdapter = new ArticleListAdapter(getActivity(), R.layout.item_article_list, lists);
+            mAdapter = new ArticleListAdapter(mContext, R.layout.item_article_list, lists);
             mPullLoadMoreRecyclerView.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
         } else {
