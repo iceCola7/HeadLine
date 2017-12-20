@@ -1,5 +1,8 @@
 package com.cxz.headline.module.news.article;
 
+import android.text.TextUtils;
+
+import com.cxz.headline.base.BaseSingleObserver;
 import com.cxz.headline.base.mvp.BasePresenter;
 import com.cxz.headline.bean.news.NewsMultiArticleBean;
 import com.cxz.headline.bean.news.NewsMultiArticleDataBean;
@@ -13,7 +16,6 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 
 /**
@@ -32,7 +34,10 @@ public class ArticlePresenter extends BasePresenter<ArticleContract.Model, Artic
 
     @Override
     public void loadNewsArticleList(String category, String minBehotTime) {
-        mModel.loadNewsArticleList(category, minBehotTime, true)
+        if (TextUtils.isEmpty(category)){
+            category = "recommend";
+        }
+        mModel.loadNewsArticleList(category, minBehotTime, false)
                 .compose(RxUtil.<NewsMultiArticleBean>rxSchedulerTransformer())
                 .switchMap(new Function<NewsMultiArticleBean, ObservableSource<NewsMultiArticleDataBean>>() {
                     @Override
@@ -46,21 +51,19 @@ public class ArticlePresenter extends BasePresenter<ArticleContract.Model, Artic
                 })
                 .toList()
                 .compose(mView.<List<NewsMultiArticleDataBean>>bindToLife())
-                .subscribe(new Consumer<List<NewsMultiArticleDataBean>>() {
+                .subscribe(new BaseSingleObserver<List<NewsMultiArticleDataBean>>(mView) {
                     @Override
-                    public void accept(List<NewsMultiArticleDataBean> newsMultiArticleDataBeans) throws Exception {
-                        mView.updateNewsArticleList(newsMultiArticleDataBeans);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-
+                    public void onSuccess(List<NewsMultiArticleDataBean> dataBeans) {
+                        mView.updateNewsArticleList(dataBeans);
                     }
                 });
     }
 
     @Override
     public void loadMoreNewsArticleList(String category, String maxBehotTime) {
+        if (TextUtils.isEmpty(category)){
+            category = "recommend";
+        }
         mModel.loadMoreNewsArticleList(category, maxBehotTime, false)
                 .compose(RxUtil.<NewsMultiArticleBean>rxSchedulerTransformer())
                 .switchMap(new Function<NewsMultiArticleBean, ObservableSource<NewsMultiArticleDataBean>>() {
@@ -75,15 +78,10 @@ public class ArticlePresenter extends BasePresenter<ArticleContract.Model, Artic
                 })
                 .toList()
                 .compose(mView.<List<NewsMultiArticleDataBean>>bindToLife())
-                .subscribe(new Consumer<List<NewsMultiArticleDataBean>>() {
+                .subscribe(new BaseSingleObserver<List<NewsMultiArticleDataBean>>(mView) {
                     @Override
-                    public void accept(List<NewsMultiArticleDataBean> newsMultiArticleDataBeans) throws Exception {
-                        mView.updateMoreNewsArticleList(newsMultiArticleDataBeans);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-
+                    public void onSuccess(List<NewsMultiArticleDataBean> dataBeans) {
+                        mView.updateMoreNewsArticleList(dataBeans);
                     }
                 });
     }

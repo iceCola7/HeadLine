@@ -32,7 +32,7 @@ public class ArticleModel extends BaseModel implements ArticleContract.Model {
                     @Override
                     public ObservableSource<NewsMultiArticleBean> apply(Observable<NewsMultiArticleBean> observable) throws Exception {
                         return mRetrofitHelper.obtainCacheService(NewsCacheProvider.class)
-                                .getNewsArticleList(observable, new DynamicKey(minBehotTime), new EvictDynamicKey(isUpdate))
+                                .getNewsArticleList(observable, new DynamicKey(category), new EvictDynamicKey(isUpdate))
                                 .map(new Function<Reply<NewsMultiArticleBean>, NewsMultiArticleBean>() {
                                     @Override
                                     public NewsMultiArticleBean apply(Reply<NewsMultiArticleBean> newsMultiArticleBeanReply) throws Exception {
@@ -44,13 +44,13 @@ public class ArticleModel extends BaseModel implements ArticleContract.Model {
     }
 
     @Override
-    public Observable<NewsMultiArticleBean> loadMoreNewsArticleList(String category, final String maxBehotTime, final boolean isUpdate) {
+    public Observable<NewsMultiArticleBean> loadMoreNewsArticleList(final String category, final String maxBehotTime, final boolean isUpdate) {
         return Observable.just(mRetrofitHelper.obtainRetrofitService(NewsService.class).getNewsArticleList(category, maxBehotTime))
                 .flatMap(new Function<Observable<NewsMultiArticleBean>, ObservableSource<NewsMultiArticleBean>>() {
                     @Override
                     public ObservableSource<NewsMultiArticleBean> apply(Observable<NewsMultiArticleBean> observable) throws Exception {
                         return mRetrofitHelper.obtainCacheService(NewsCacheProvider.class)
-                                .getMoreNewsArticleList(observable, new DynamicKey(maxBehotTime), new EvictDynamicKey(isUpdate))
+                                .getMoreNewsArticleList(observable, new DynamicKey(category), new EvictDynamicKey(isUpdate))
                                 .map(new Function<Reply<NewsMultiArticleBean>, NewsMultiArticleBean>() {
                                     @Override
                                     public NewsMultiArticleBean apply(Reply<NewsMultiArticleBean> newsMultiArticleBeanReply) throws Exception {

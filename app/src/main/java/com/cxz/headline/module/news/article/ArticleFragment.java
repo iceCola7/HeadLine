@@ -1,6 +1,7 @@
 package com.cxz.headline.module.news.article;
 
 import android.os.Bundle;
+import android.widget.LinearLayout;
 
 import com.cxz.headline.R;
 import com.cxz.headline.adapter.news.ArticleListAdapter;
@@ -9,6 +10,8 @@ import com.cxz.headline.base.BaseFragment;
 import com.cxz.headline.bean.news.NewsMultiArticleDataBean;
 import com.cxz.headline.di.component.DaggerArticleFragmentComponent;
 import com.cxz.headline.di.module.ArticleFragmentModule;
+import com.cxz.headline.util.SnackbarUtil;
+import com.cxz.headline.util.SpaceItemDecoration;
 import com.cxz.headline.util.TimeUtil;
 import com.cxz.recyclerview.PullLoadMoreRecyclerView;
 
@@ -26,6 +29,8 @@ public class ArticleFragment extends BaseFragment<ArticlePresenter> implements A
 
     @BindView(R.id.pullLoadMoreRecyclerView)
     PullLoadMoreRecyclerView mPullLoadMoreRecyclerView;
+    @BindView(R.id.ll_content)
+    LinearLayout ll_content;
 
     private String categoryId;
     private ArticleListAdapter mAdapter;
@@ -40,12 +45,12 @@ public class ArticleFragment extends BaseFragment<ArticlePresenter> implements A
 
     @Override
     public void showLoading() {
-
+        mPullLoadMoreRecyclerView.setRefreshing(true);
     }
 
     @Override
     public void hideLoading() {
-
+        mPullLoadMoreRecyclerView.setPullLoadMoreCompleted();
     }
 
     @Override
@@ -55,7 +60,7 @@ public class ArticleFragment extends BaseFragment<ArticlePresenter> implements A
 
     @Override
     public void showErrorMsg(String msg) {
-
+        SnackbarUtil.showLong(ll_content, msg, 4);
     }
 
     @Override
@@ -77,18 +82,19 @@ public class ArticleFragment extends BaseFragment<ArticlePresenter> implements A
         categoryId = getArguments().getString(CATEGORY_ID, "");
 
         mPullLoadMoreRecyclerView.setLinearLayout();
+        mPullLoadMoreRecyclerView.getRecyclerView().addItemDecoration(new SpaceItemDecoration(mContext));
         mPullLoadMoreRecyclerView.setOnPullLoadMoreListener(this);
     }
 
     @Override
     protected void lazyLoad() {
-        mPullLoadMoreRecyclerView.setRefreshing(true);
+        showLoading();
         mPresenter.loadNewsArticleList(categoryId, TimeUtil.getCurrentTimeStamp());
     }
 
     @Override
     public void updateNewsArticleList(List<NewsMultiArticleDataBean> lists) {
-        mPullLoadMoreRecyclerView.setPullLoadMoreCompleted();
+        hideLoading();
         if (mAdapter == null) {
             mAdapter = new ArticleListAdapter(mContext, R.layout.item_article_list, lists);
             mPullLoadMoreRecyclerView.setAdapter(mAdapter);
@@ -100,13 +106,13 @@ public class ArticleFragment extends BaseFragment<ArticlePresenter> implements A
 
     @Override
     public void updateMoreNewsArticleList(List<NewsMultiArticleDataBean> lists) {
-        mPullLoadMoreRecyclerView.setPullLoadMoreCompleted();
+        hideLoading();
         mAdapter.appendDatas(lists);
     }
 
     @Override
     public void onRefresh() {
-        mPullLoadMoreRecyclerView.setRefreshing(true);
+        showLoading();
         mPresenter.loadNewsArticleList(categoryId, TimeUtil.getCurrentTimeStamp());
     }
 

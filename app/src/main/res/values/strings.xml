@@ -14,6 +14,7 @@
 
     <!-- Menu Action -->
     <string name="action_search">搜索</string>
+    <string name="action_share">分享</string>
 
     <!-- Nav -->
     <string name="navigation_drawer_open">打开侧栏</string>
