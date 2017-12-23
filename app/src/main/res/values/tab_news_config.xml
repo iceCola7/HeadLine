@@ -60,7 +60,7 @@
     </string-array>
 
     <string-array name="tab_news_id">
-        <item> </item>
+        <item>__all__</item>
         <item>news_hot</item>
         <item>video</item>
         <item>news_society</item>

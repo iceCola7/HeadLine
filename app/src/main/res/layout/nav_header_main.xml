@@ -18,7 +18,7 @@
         android:layout_width="@dimen/avatar_width"
         android:layout_height="@dimen/avatar_height"
         android:layout_gravity="center_horizontal"
-        android:src="@mipmap/ic_launcher_circle"
+        android:src="@mipmap/avatar"
         app:civ_border_color="@android:color/white"
         app:civ_border_width="1dp" />
 

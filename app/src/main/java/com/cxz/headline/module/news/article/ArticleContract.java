@@ -23,9 +23,9 @@ public interface ArticleContract {
     }
 
     interface Presenter extends IPresenter {
-        void loadNewsArticleList(String category, String minBehotTime);
+        void loadNewsArticleList(String category, String minBehotTime, boolean isUpdate);
 
-        void loadMoreNewsArticleList(String category, String maxBehotTime);
+        void loadMoreNewsArticleList(String category, String maxBehotTime, boolean isUpdate);
     }
 
     interface Model extends IModel {

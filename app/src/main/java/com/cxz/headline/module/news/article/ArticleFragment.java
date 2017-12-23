@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 
 import com.cxz.headline.R;
-import com.cxz.headline.adapter.news.ArticleListAdapter;
+import com.cxz.headline.adapter.news.ArticleMultiListAdapter;
 import com.cxz.headline.app.App;
 import com.cxz.headline.base.BaseFragment;
 import com.cxz.headline.bean.news.NewsMultiArticleDataBean;
@@ -33,7 +33,7 @@ public class ArticleFragment extends BaseFragment<ArticlePresenter> implements A
     LinearLayout ll_content;
 
     private String categoryId;
-    private ArticleListAdapter mAdapter;
+    private ArticleMultiListAdapter mAdapter;
 
     public static ArticleFragment newInstance(String categoryId) {
         ArticleFragment fragment = new ArticleFragment();
@@ -60,6 +60,7 @@ public class ArticleFragment extends BaseFragment<ArticlePresenter> implements A
 
     @Override
     public void showErrorMsg(String msg) {
+        hideLoading();
         SnackbarUtil.showLong(ll_content, msg, 4);
     }
 
@@ -89,14 +90,14 @@ public class ArticleFragment extends BaseFragment<ArticlePresenter> implements A
     @Override
     protected void lazyLoad() {
         showLoading();
-        mPresenter.loadNewsArticleList(categoryId, TimeUtil.getCurrentTimeStamp());
+        mPresenter.loadNewsArticleList(categoryId, TimeUtil.getCurrentTimeStamp(), true);
     }
 
     @Override
     public void updateNewsArticleList(List<NewsMultiArticleDataBean> lists) {
         hideLoading();
         if (mAdapter == null) {
-            mAdapter = new ArticleListAdapter(mContext, R.layout.item_article_list, lists);
+            mAdapter = new ArticleMultiListAdapter(mContext, lists);
             mPullLoadMoreRecyclerView.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
         } else {
@@ -113,12 +114,12 @@ public class ArticleFragment extends BaseFragment<ArticlePresenter> implements A
     @Override
     public void onRefresh() {
         showLoading();
-        mPresenter.loadNewsArticleList(categoryId, TimeUtil.getCurrentTimeStamp());
+        mPresenter.loadNewsArticleList(categoryId, TimeUtil.getCurrentTimeStamp(), true);
     }
 
     @Override
     public void onLoadMore() {
-        mPresenter.loadMoreNewsArticleList(categoryId, TimeUtil.getCurrentTimeStamp());
+        mPresenter.loadMoreNewsArticleList(categoryId, TimeUtil.getCurrentTimeStamp(), true);
     }
 
 }

@@ -33,11 +33,8 @@ public class ArticlePresenter extends BasePresenter<ArticleContract.Model, Artic
     }
 
     @Override
-    public void loadNewsArticleList(String category, String minBehotTime) {
-        if (TextUtils.isEmpty(category)){
-            category = "recommend";
-        }
-        mModel.loadNewsArticleList(category, minBehotTime, false)
+    public void loadNewsArticleList(String category, String minBehotTime, boolean isUpdate) {
+        mModel.loadNewsArticleList(category, minBehotTime, isUpdate)
                 .compose(RxUtil.<NewsMultiArticleBean>rxSchedulerTransformer())
                 .switchMap(new Function<NewsMultiArticleBean, ObservableSource<NewsMultiArticleDataBean>>() {
                     @Override
@@ -60,11 +57,8 @@ public class ArticlePresenter extends BasePresenter<ArticleContract.Model, Artic
     }
 
     @Override
-    public void loadMoreNewsArticleList(String category, String maxBehotTime) {
-        if (TextUtils.isEmpty(category)){
-            category = "recommend";
-        }
-        mModel.loadMoreNewsArticleList(category, maxBehotTime, false)
+    public void loadMoreNewsArticleList(String category, String maxBehotTime, boolean isUpdate) {
+        mModel.loadMoreNewsArticleList(category, maxBehotTime, isUpdate)
                 .compose(RxUtil.<NewsMultiArticleBean>rxSchedulerTransformer())
                 .switchMap(new Function<NewsMultiArticleBean, ObservableSource<NewsMultiArticleDataBean>>() {
                     @Override

@@ -30,13 +30,16 @@
                 android:maxLines="2"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tv_abstract"
-                android:layout_width="wrap_content"
+            <com.lzy.ninegrid.NineGridView
+                android:id="@+id/nineGrid"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:ellipsize="end"
-                android:maxLines="3" />
+                android:layout_marginBottom="8dp"
+                app:ngv_gridSpacing="3dp"
+                app:ngv_maxSize="3"
+                app:ngv_mode="fill"
+                app:ngv_singleImageRatio="1"
+                app:ngv_singleImageSize="250dp"/>
 
         </LinearLayout>
 
@@ -52,7 +55,8 @@
                 android:id="@+id/iv_avatar"
                 android:layout_width="@dimen/news_avatar_width"
                 android:layout_height="@dimen/news_avatar_height"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                app:srcCompat="@mipmap/ic_default_avatar" />
 
             <TextView
                 android:id="@+id/tv_extra"
