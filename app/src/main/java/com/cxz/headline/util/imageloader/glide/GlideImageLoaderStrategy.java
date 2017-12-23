@@ -74,10 +74,12 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy<GlideIm
         if (options.getTransformation() != null) {
             requestOptions = requestOptions.transform(options.getTransformation());
         }
+        if (options.getImageSize() != null) {
+            requestOptions = requestOptions.override(options.getImageSize().getImageWidth(), options.getImageSize().getImageHeight());
+        }
 
         requestOptions = requestOptions
                 .skipMemoryCache(options.isSkipMemoryCache());
-
 
         RequestManager manager = Glide.with(context);
         if (options.isAsGif()) {

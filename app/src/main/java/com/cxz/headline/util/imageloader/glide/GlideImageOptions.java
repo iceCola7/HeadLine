@@ -28,6 +28,7 @@ public class GlideImageOptions extends ImageOptions {
         this.imageView = builder.imageView;
         this.placeholder = builder.placeholder;
         this.errorPic = builder.errorPic;
+        this.imageSize = builder.imageSize;
         this.cacheStrategy = builder.cacheStrategy;
         this.fallback = builder.fallback;
         this.asGif = builder.asGif;
@@ -90,6 +91,7 @@ public class GlideImageOptions extends ImageOptions {
         private ImageView imageView;
         private int placeholder = -1;
         private int errorPic = -1;
+        private ImageSize imageSize;
         private DiskCacheStrategy cacheStrategy = DiskCacheStrategy.AUTOMATIC;
         private int fallback = -1; //请求 url 为空,则使用此图片作为占位符
         private BitmapTransformation transformation;//glide用它来改变图形的形状
@@ -118,6 +120,11 @@ public class GlideImageOptions extends ImageOptions {
 
         public Builder errorPic(int errorPic) {
             this.errorPic = errorPic;
+            return this;
+        }
+
+        public Builder ImageSize(ImageSize imageSize) {
+            this.imageSize = imageSize;
             return this;
         }
 

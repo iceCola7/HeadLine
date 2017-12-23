@@ -12,6 +12,7 @@ public class ImageOptions {
     protected ImageView imageView;
     protected int placeholder = -1;// 占位符
     protected int errorPic = -1;// 错误占位符
+    protected ImageSize imageSize;
 
     public String getUrl() {
         return url;
@@ -29,4 +30,25 @@ public class ImageOptions {
         return errorPic;
     }
 
+    public ImageSize getImageSize() {
+        return imageSize;
+    }
+
+    public class ImageSize{
+        private int imageWidth;
+        private int imageHeight;
+
+        public ImageSize(int imageWidth, int imageHeight) {
+            this.imageWidth = imageWidth;
+            this.imageHeight = imageHeight;
+        }
+
+        public int getImageWidth() {
+            return imageWidth;
+        }
+
+        public int getImageHeight() {
+            return imageHeight;
+        }
+    }
 }
