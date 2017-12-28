@@ -3,7 +3,7 @@ package com.cxz.headline.adapter.news;
 import android.content.Context;
 
 import com.cxz.headline.bean.news.NewsMultiArticleDataBean;
-import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
+import com.cxz.xrecyclerview.adapter.MultiItemTypeAdapter;
 
 import java.util.List;
 

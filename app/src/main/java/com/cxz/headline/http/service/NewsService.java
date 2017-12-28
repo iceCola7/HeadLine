@@ -12,12 +12,12 @@ import retrofit2.http.Query;
 
 public interface NewsService {
 
-    @GET("/api/news/feed/v66/?refer=1&count=20")
+    @GET("/api/news/feed/v62/?refer=1&count=20&iid=5034850950&device_id=6096495334&aid=13")
     Observable<NewsMultiArticleBean> getNewsArticleList(
             @Query("category") String category,
             @Query("min_behot_time") String min_behot_time);
 
-    @GET("/api/news/feed/v66/?refer=1&count=20")
+    @GET("/api/news/feed/v62/?refer=1&count=20&iid=5034850950&device_id=6096495334&aid=13")
     Observable<NewsMultiArticleBean> loadMoreNewsArticleList(
             @Query("category") String category,
             @Query("max_behot_time") String max_behot_time);

@@ -13,18 +13,17 @@ import com.cxz.headline.R;
 import com.cxz.headline.bean.news.NewsMultiArticleDataBean;
 import com.cxz.headline.util.ShareUtil;
 import com.cxz.headline.util.TimeUtil;
-import com.cxz.headline.util.XLog;
 import com.cxz.headline.util.imageloader.ImageLoader;
 import com.cxz.headline.util.imageloader.ImageOptions;
 import com.cxz.headline.util.imageloader.glide.GlideImageOptions;
-import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
-import com.zhy.adapter.recyclerview.base.ViewHolder;
+import com.cxz.xrecyclerview.adapter.base.BaseItemDelegate;
+import com.cxz.xrecyclerview.adapter.base.BaseViewHolder;
 
 /**
  * Created by chenxz on 2017/12/23.
  */
 
-public class ArticleTextDelegate implements ItemViewDelegate<NewsMultiArticleDataBean> {
+public class ArticleTextDelegate implements BaseItemDelegate<NewsMultiArticleDataBean> {
 
     private ImageOptions options;
     private Context mContext;
@@ -44,7 +43,7 @@ public class ArticleTextDelegate implements ItemViewDelegate<NewsMultiArticleDat
     }
 
     @Override
-    public void convert(ViewHolder holder, final NewsMultiArticleDataBean bean, int position) {
+    public void convert(BaseViewHolder holder, final NewsMultiArticleDataBean bean, int position) {
         final String title = bean.getTitle();
         String abstractInfo = bean.getAbstractX();
         String extra = bean.getSource() + " " + bean.getComment_count() + "评论"
@@ -53,7 +52,7 @@ public class ArticleTextDelegate implements ItemViewDelegate<NewsMultiArticleDat
                 .setText(R.id.tv_extra, extra);
         TextView tv_abstract = holder.getView(R.id.tv_abstract);
         tv_abstract.setVisibility(View.GONE);
-        if (!title.trim().equals(abstractInfo.trim()) && !TextUtils.isEmpty(abstractInfo.trim())) {
+        if (title != null && !title.equals(abstractInfo) && !TextUtils.isEmpty(abstractInfo)) {
             tv_abstract.setVisibility(View.VISIBLE);
             tv_abstract.setText(abstractInfo);
         }

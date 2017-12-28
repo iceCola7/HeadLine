@@ -13,7 +13,7 @@ import com.cxz.headline.di.module.ArticleFragmentModule;
 import com.cxz.headline.util.SnackbarUtil;
 import com.cxz.headline.util.SpaceItemDecoration;
 import com.cxz.headline.util.TimeUtil;
-import com.cxz.recyclerview.PullLoadMoreRecyclerView;
+import com.cxz.xrecyclerview.XRecyclerView;
 
 import java.util.List;
 
@@ -23,12 +23,12 @@ import butterknife.BindView;
  * Created by chenxz on 2017/12/10.
  */
 
-public class ArticleFragment extends BaseFragment<ArticlePresenter> implements ArticleContract.View, PullLoadMoreRecyclerView.PullLoadMoreListener {
+public class ArticleFragment extends BaseFragment<ArticlePresenter> implements ArticleContract.View, XRecyclerView.PullLoadMoreListener {
 
     private static String CATEGORY_ID = "categoryId";
 
-    @BindView(R.id.pullLoadMoreRecyclerView)
-    PullLoadMoreRecyclerView mPullLoadMoreRecyclerView;
+    @BindView(R.id.xRecyclerView)
+    XRecyclerView mRecyclerView;
     @BindView(R.id.ll_content)
     LinearLayout ll_content;
 
@@ -45,12 +45,12 @@ public class ArticleFragment extends BaseFragment<ArticlePresenter> implements A
 
     @Override
     public void showLoading() {
-        mPullLoadMoreRecyclerView.setRefreshing(true);
+        mRecyclerView.setRefreshing(true);
     }
 
     @Override
     public void hideLoading() {
-        mPullLoadMoreRecyclerView.setPullLoadMoreCompleted();
+        mRecyclerView.setPullLoadMoreCompleted();
     }
 
     @Override
@@ -82,15 +82,15 @@ public class ArticleFragment extends BaseFragment<ArticlePresenter> implements A
     protected void initView(Bundle savedInstanceState) {
         categoryId = getArguments().getString(CATEGORY_ID, "");
 
-        mPullLoadMoreRecyclerView.setLinearLayout();
-        mPullLoadMoreRecyclerView.getRecyclerView().addItemDecoration(new SpaceItemDecoration(mContext));
-        mPullLoadMoreRecyclerView.setOnPullLoadMoreListener(this);
+        mRecyclerView.setLinearLayout();
+        mRecyclerView.getRecyclerView().addItemDecoration(new SpaceItemDecoration(mContext));
+        mRecyclerView.setOnPullLoadMoreListener(this);
     }
 
     @Override
     protected void lazyLoad() {
         showLoading();
-        mPresenter.loadNewsArticleList(categoryId, TimeUtil.getCurrentTimeStamp(), true);
+        mPresenter.loadNewsArticleList(categoryId, "0", true);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class ArticleFragment extends BaseFragment<ArticlePresenter> implements A
         hideLoading();
         if (mAdapter == null) {
             mAdapter = new ArticleMultiListAdapter(mContext, lists);
-            mPullLoadMoreRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
         } else {
             mAdapter.setDatas(lists);
@@ -114,7 +114,7 @@ public class ArticleFragment extends BaseFragment<ArticlePresenter> implements A
     @Override
     public void onRefresh() {
         showLoading();
-        mPresenter.loadNewsArticleList(categoryId, TimeUtil.getCurrentTimeStamp(), true);
+        mPresenter.loadNewsArticleList(categoryId, "0", true);
     }
 
     @Override

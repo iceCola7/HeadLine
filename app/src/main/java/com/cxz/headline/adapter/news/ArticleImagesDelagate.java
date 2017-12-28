@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.cxz.headline.R;
 import com.cxz.headline.bean.news.NewsMultiArticleDataBean;
 import com.cxz.headline.util.ShareUtil;
@@ -16,11 +15,11 @@ import com.cxz.headline.util.TimeUtil;
 import com.cxz.headline.util.imageloader.ImageLoader;
 import com.cxz.headline.util.imageloader.ImageOptions;
 import com.cxz.headline.util.imageloader.glide.GlideImageOptions;
+import com.cxz.xrecyclerview.adapter.base.BaseItemDelegate;
+import com.cxz.xrecyclerview.adapter.base.BaseViewHolder;
 import com.lzy.ninegrid.ImageInfo;
 import com.lzy.ninegrid.NineGridView;
 import com.lzy.ninegrid.preview.NineGridViewClickAdapter;
-import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
-import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,7 @@ import java.util.List;
  * Created by chenxz on 2017/12/23.
  */
 
-public class ArticleImagesDelagate implements ItemViewDelegate<NewsMultiArticleDataBean> {
+public class ArticleImagesDelagate implements BaseItemDelegate<NewsMultiArticleDataBean> {
 
     private Context mContext;
     private ImageOptions options;
@@ -49,7 +48,7 @@ public class ArticleImagesDelagate implements ItemViewDelegate<NewsMultiArticleD
     }
 
     @Override
-    public void convert(ViewHolder holder, final NewsMultiArticleDataBean bean, int position) {
+    public void convert(BaseViewHolder holder, final NewsMultiArticleDataBean bean, int position) {
         final String title = bean.getTitle();
         String extra = bean.getSource() + " " + bean.getComment_count() + "评论"
                 + " " + TimeUtil.getTimeStampAgo(String.valueOf(bean.getBehot_time()));
@@ -85,6 +84,7 @@ public class ArticleImagesDelagate implements ItemViewDelegate<NewsMultiArticleD
                 public void onDisplayImage(Context context, ImageView imageView, String url) {
                     options = GlideImageOptions.builder()
                             .url(url)
+                            .scaleType(GlideImageOptions.ImageScaleType.CENTER_CROP)
                             .imageView(imageView)
                             .build();
                     ImageLoader.getInstance().loadImage(mContext, options);

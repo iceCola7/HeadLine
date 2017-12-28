@@ -14,14 +14,14 @@ import com.cxz.headline.util.TimeUtil;
 import com.cxz.headline.util.imageloader.ImageLoader;
 import com.cxz.headline.util.imageloader.ImageOptions;
 import com.cxz.headline.util.imageloader.glide.GlideImageOptions;
-import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
-import com.zhy.adapter.recyclerview.base.ViewHolder;
+import com.cxz.xrecyclerview.adapter.base.BaseItemDelegate;
+import com.cxz.xrecyclerview.adapter.base.BaseViewHolder;
 
 /**
  * Created by chenxz on 2017/12/23.
  */
 
-public class ArticleVidelDelagate implements ItemViewDelegate<NewsMultiArticleDataBean> {
+public class ArticleVidelDelagate implements BaseItemDelegate<NewsMultiArticleDataBean> {
 
     private Context mContext;
     private ImageOptions options;
@@ -41,7 +41,7 @@ public class ArticleVidelDelagate implements ItemViewDelegate<NewsMultiArticleDa
     }
 
     @Override
-    public void convert(ViewHolder holder, final NewsMultiArticleDataBean bean, int position) {
+    public void convert(BaseViewHolder holder, final NewsMultiArticleDataBean bean, int position) {
         final String title = bean.getTitle();
         String extra = bean.getSource() + " " + bean.getComment_count() + "评论"
                 + " " + TimeUtil.getTimeStampAgo(String.valueOf(bean.getBehot_time()));
@@ -59,11 +59,18 @@ public class ArticleVidelDelagate implements ItemViewDelegate<NewsMultiArticleDa
         }
 
         ImageView iv_content = holder.getView(R.id.iv_content);
-        options = GlideImageOptions.builder()
-                .url(bean.getVideo_detail_info().getDetail_video_large_image().getUrl())
-                .imageView(iv_content)
-                .build();
-        ImageLoader.getInstance().loadImage(mContext, options);
+        iv_content.setVisibility(View.GONE);
+        if (bean.getVideo_detail_info() != null
+                && bean.getVideo_detail_info().getDetail_video_large_image() != null
+                && bean.getVideo_detail_info().getDetail_video_large_image().getUrl() != null) {
+            iv_content.setVisibility(View.VISIBLE);
+            options = GlideImageOptions.builder()
+                    .url(bean.getVideo_detail_info().getDetail_video_large_image().getUrl())
+                    .scaleType(GlideImageOptions.ImageScaleType.CENTER_CROP)
+                    .imageView(iv_content)
+                    .build();
+            ImageLoader.getInstance().loadImage(mContext, options);
+        }
 
         final ImageView iv_dots = holder.getView(R.id.iv_dots);
         iv_dots.setOnClickListener(new View.OnClickListener() {

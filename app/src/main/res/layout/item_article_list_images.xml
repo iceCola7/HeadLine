@@ -17,7 +17,7 @@
 
         <LinearLayout
             android:id="@+id/content"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="vertical">
@@ -34,12 +34,12 @@
                 android:id="@+id/nineGrid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="4dp"
                 app:ngv_gridSpacing="3dp"
                 app:ngv_maxSize="3"
                 app:ngv_mode="fill"
                 app:ngv_singleImageRatio="1"
-                app:ngv_singleImageSize="250dp"/>
+                app:ngv_singleImageSize="200dp"/>
 
         </LinearLayout>
 
