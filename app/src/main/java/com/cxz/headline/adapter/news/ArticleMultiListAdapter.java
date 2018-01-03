@@ -17,8 +17,8 @@ public class ArticleMultiListAdapter extends MultiItemTypeAdapter<NewsMultiArtic
         super(context, datas);
 
         addItemViewDelegate(new ArticleTextDelegate(context));
-        addItemViewDelegate(new ArticleImagesDelagate(context));
-        addItemViewDelegate(new ArticleVidelDelagate(context));
+        addItemViewDelegate(new ArticleImagesDelegate(context));
+        addItemViewDelegate(new ArticleVideoDelegate(context));
     }
 
     public void appendDatas(List<NewsMultiArticleDataBean> dataBeans) {

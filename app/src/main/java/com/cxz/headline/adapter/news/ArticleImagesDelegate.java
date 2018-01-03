@@ -1,7 +1,6 @@
 package com.cxz.headline.adapter.news;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v7.widget.PopupMenu;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -17,23 +16,17 @@ import com.cxz.headline.util.imageloader.ImageOptions;
 import com.cxz.headline.util.imageloader.glide.GlideImageOptions;
 import com.cxz.xrecyclerview.adapter.base.BaseItemDelegate;
 import com.cxz.xrecyclerview.adapter.base.BaseViewHolder;
-import com.lzy.ninegrid.ImageInfo;
-import com.lzy.ninegrid.NineGridView;
-import com.lzy.ninegrid.preview.NineGridViewClickAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by chenxz on 2017/12/23.
  */
 
-public class ArticleImagesDelagate implements BaseItemDelegate<NewsMultiArticleDataBean> {
+public class ArticleImagesDelegate implements BaseItemDelegate<NewsMultiArticleDataBean> {
 
     private Context mContext;
     private ImageOptions options;
 
-    public ArticleImagesDelagate(Context context) {
+    public ArticleImagesDelegate(Context context) {
         this.mContext = context;
     }
 
@@ -65,36 +58,45 @@ public class ArticleImagesDelagate implements BaseItemDelegate<NewsMultiArticleD
             ImageLoader.getInstance().loadImage(mContext, options);
         }
 
+        ImageView imageView = holder.getView(R.id.imageView);
+        imageView.setVisibility(View.GONE);
         if (bean.getImage_list() != null && bean.getImage_list().size() > 0) {
-            NewsMultiArticleDataBean.ImageListBean imageBean;
-            List<ImageInfo> imageInfos = new ArrayList<>();
-            ImageInfo imageInfo = new ImageInfo();
-            for (int i = 0; i < bean.getImage_list().size(); i++) {
-                imageBean = bean.getImage_list().get(i);
-                imageInfo.thumbnailUrl = imageBean.getUrl();
-                //imageInfo.bigImageUrl = imageBean.getUrl_list().get(i).getUrlX();
-                //imageInfo.imageViewWidth = imageBean.getWidth();
-                //imageInfo.imageViewHeight = imageBean.getHeight();
-                imageInfos.add(imageInfo);
-            }
-            NineGridView nineGridView = holder.getView(R.id.nineGrid);
-            nineGridView.setAdapter(new NineGridViewClickAdapter(mContext, imageInfos));
-            NineGridView.setImageLoader(new NineGridView.ImageLoader() {
-                @Override
-                public void onDisplayImage(Context context, ImageView imageView, String url) {
-                    options = GlideImageOptions.builder()
-                            .url(url)
-                            .scaleType(GlideImageOptions.ImageScaleType.CENTER_CROP)
-                            .imageView(imageView)
-                            .build();
-                    ImageLoader.getInstance().loadImage(mContext, options);
-                }
-
-                @Override
-                public Bitmap getCacheImage(String url) {
-                    return null;
-                }
-            });
+            imageView.setVisibility(View.VISIBLE);
+            NewsMultiArticleDataBean.ImageListBean imageBean = bean.getImage_list().get(0);
+            options = GlideImageOptions.builder()
+                    .url(imageBean.getUrl())
+                    .placeholder(R.mipmap.ic_default_pic)
+                    .imageView(imageView)
+                    .build();
+            ImageLoader.getInstance().loadImage(mContext, options);
+//            List<ImageInfo> imageInfos = new ArrayList<>();
+//            ImageInfo imageInfo = new ImageInfo();
+//            for (int i = 0; i < bean.getImage_list().size(); i++) {
+//                imageBean = bean.getImage_list().get(i);
+//                imageInfo.thumbnailUrl = imageBean.getUrl();
+//                //imageInfo.bigImageUrl = imageBean.getUrl_list().get(i).getUrlX();
+//                //imageInfo.imageViewWidth = imageBean.getWidth();
+//                //imageInfo.imageViewHeight = imageBean.getHeight();
+//                imageInfos.add(imageInfo);
+//            }
+//            NineGridView nineGridView = holder.getView(R.id.nineGrid);
+//            nineGridView.setAdapter(new NineGridViewClickAdapter(mContext, imageInfos));
+//            NineGridView.setImageLoader(new NineGridView.ImageLoader() {
+//                @Override
+//                public void onDisplayImage(Context context, ImageView imageView, String url) {
+//                    options = GlideImageOptions.builder()
+//                            .url(url)
+//                            .scaleType(GlideImageOptions.ImageScaleType.CENTER_CROP)
+//                            .imageView(imageView)
+//                            .build();
+//                    ImageLoader.getInstance().loadImage(mContext, options);
+//                }
+//
+//                @Override
+//                public Bitmap getCacheImage(String url) {
+//                    return null;
+//                }
+//            });
         }
 
         final ImageView iv_dots = holder.getView(R.id.iv_dots);

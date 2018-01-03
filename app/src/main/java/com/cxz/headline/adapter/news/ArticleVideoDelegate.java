@@ -21,12 +21,12 @@ import com.cxz.xrecyclerview.adapter.base.BaseViewHolder;
  * Created by chenxz on 2017/12/23.
  */
 
-public class ArticleVidelDelagate implements BaseItemDelegate<NewsMultiArticleDataBean> {
+public class ArticleVideoDelegate implements BaseItemDelegate<NewsMultiArticleDataBean> {
 
     private Context mContext;
     private ImageOptions options;
 
-    public ArticleVidelDelagate(Context context) {
+    public ArticleVideoDelegate(Context context) {
         this.mContext = context;
     }
 
@@ -67,6 +67,7 @@ public class ArticleVidelDelagate implements BaseItemDelegate<NewsMultiArticleDa
             options = GlideImageOptions.builder()
                     .url(bean.getVideo_detail_info().getDetail_video_large_image().getUrl())
                     .scaleType(GlideImageOptions.ImageScaleType.CENTER_CROP)
+                    .placeholder(R.mipmap.ic_default_pic)
                     .imageView(iv_content)
                     .build();
             ImageLoader.getInstance().loadImage(mContext, options);
