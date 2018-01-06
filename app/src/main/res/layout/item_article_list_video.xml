@@ -30,12 +30,24 @@
                 android:maxLines="2"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/iv_content"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="4dp"
-                android:scaleType="fitXY" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
+
+                <ImageView
+                    android:id="@+id/iv_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="fitXY" />
+
+                <ImageView
+                    android:layout_width="88dp"
+                    android:layout_height="88dp"
+                    android:layout_centerInParent="true"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/play_normal"/>
+            </RelativeLayout>
 
         </LinearLayout>
 

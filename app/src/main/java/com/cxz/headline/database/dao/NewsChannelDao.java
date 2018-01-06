@@ -67,4 +67,14 @@ public class NewsChannelDao {
         return mRealm.copyFromRealm(results);
     }
 
+    public void removeAll() {
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<NewsChannelBean> beans = mRealm.where(NewsChannelBean.class).findAll();
+                beans.deleteAllFromRealm();
+            }
+        });
+    }
+
 }

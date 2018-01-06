@@ -122,4 +122,16 @@ public class ArticleFragment extends BaseFragment<ArticlePresenter> implements A
         mPresenter.loadMoreNewsArticleList(categoryId, TimeUtil.getCurrentTimeStamp(), true);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mAdapter != null) {
+            mAdapter = null;
+        }
+        if (mRecyclerView != null) {
+            mRecyclerView.getRecyclerView().setItemAnimator(null);
+            mRecyclerView.getRecyclerView().setAdapter(null);
+            mRecyclerView = null;
+        }
+    }
 }

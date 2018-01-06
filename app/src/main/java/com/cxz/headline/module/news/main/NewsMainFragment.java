@@ -1,5 +1,6 @@
 package com.cxz.headline.module.news.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,10 +14,10 @@ import com.cxz.headline.adapter.base.BasePagerAdapter;
 import com.cxz.headline.app.App;
 import com.cxz.headline.base.BaseFragment;
 import com.cxz.headline.bean.news.NewsChannelBean;
-import com.cxz.headline.database.dao.NewsChannelDao;
 import com.cxz.headline.di.component.DaggerNewsMainFragmentComponent;
 import com.cxz.headline.di.module.NewsMainFragmentModule;
 import com.cxz.headline.module.news.article.ArticleFragment;
+import com.cxz.headline.module.news.channel.NewsChannelActivity;
 import com.cxz.headline.util.SettingUtil;
 
 import java.util.ArrayList;
@@ -40,7 +41,6 @@ public class NewsMainFragment extends BaseFragment<NewsMainPresenter> implements
     @BindView(R.id.header_layout)
     LinearLayout mLinearLayout;
 
-    private NewsChannelDao dao;
     private List<Fragment> mFragmentLists;
     private List<String> mTitleLists;
     private BasePagerAdapter mAdapter;
@@ -98,11 +98,11 @@ public class NewsMainFragment extends BaseFragment<NewsMainPresenter> implements
             @Override
             public void onClick(View v) {
                 // TODO: 2017/11/25 增加channel
+                startActivity(new Intent(mContext, NewsChannelActivity.class));
             }
         });
         mLinearLayout.setBackgroundColor(SettingUtil.getInstance().getColor());
 
-        dao = new NewsChannelDao();
         initTabs();
         mAdapter = new BasePagerAdapter(getChildFragmentManager(), mFragmentLists, mTitleLists);
         mViewPager.setAdapter(mAdapter);
@@ -117,10 +117,10 @@ public class NewsMainFragment extends BaseFragment<NewsMainPresenter> implements
     private void initTabs() {
         mFragmentLists = new ArrayList<>();
         mTitleLists = new ArrayList<>();
-        List<NewsChannelBean> beans = dao.queryByEnable(true);
+        List<NewsChannelBean> beans = mPresenter.getChannelBeans(true);
         if (beans.size() == 0) {
-            dao.addInitData();
-            beans = dao.queryByEnable(true);
+            mPresenter.initChannelData();
+            beans = mPresenter.getChannelBeans(true);
         }
         for (NewsChannelBean bean : beans) {
             Fragment fragment = null;
@@ -140,5 +140,11 @@ public class NewsMainFragment extends BaseFragment<NewsMainPresenter> implements
     public void onDestroyView() {
         super.onDestroyView();
 //        instance = null;
+    }
+
+    @Override
+    public void updateChannel() {
+        initTabs();
+        mAdapter.recreateItems(mFragmentLists, mTitleLists);
     }
 }

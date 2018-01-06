@@ -1,7 +1,5 @@
 package com.cxz.headline.module.news.article;
 
-import android.text.TextUtils;
-
 import com.cxz.headline.base.BaseSingleObserver;
 import com.cxz.headline.base.mvp.BasePresenter;
 import com.cxz.headline.bean.news.NewsMultiArticleBean;
@@ -40,8 +38,11 @@ public class ArticlePresenter extends BasePresenter<ArticleContract.Model, Artic
                     @Override
                     public ObservableSource<NewsMultiArticleDataBean> apply(NewsMultiArticleBean newsMultiArticleBean) throws Exception {
                         List<NewsMultiArticleDataBean> dataBeans = new ArrayList<>();
+                        NewsMultiArticleDataBean articleDataBean;
                         for (NewsMultiArticleBean.DataBean dataBean : newsMultiArticleBean.getData()) {
-                            dataBeans.add(mGson.fromJson(dataBean.getContent(), NewsMultiArticleDataBean.class));
+                            articleDataBean = mGson.fromJson(dataBean.getContent(), NewsMultiArticleDataBean.class);
+                            if (articleDataBean.getSource() != null)
+                                dataBeans.add(articleDataBean);
                         }
                         return Observable.fromIterable(dataBeans);
                     }
@@ -64,8 +65,11 @@ public class ArticlePresenter extends BasePresenter<ArticleContract.Model, Artic
                     @Override
                     public ObservableSource<NewsMultiArticleDataBean> apply(NewsMultiArticleBean newsMultiArticleBean) throws Exception {
                         List<NewsMultiArticleDataBean> dataBeans = new ArrayList<>();
+                        NewsMultiArticleDataBean articleDataBean;
                         for (NewsMultiArticleBean.DataBean dataBean : newsMultiArticleBean.getData()) {
-                            dataBeans.add(mGson.fromJson(dataBean.getContent(), NewsMultiArticleDataBean.class));
+                            articleDataBean = mGson.fromJson(dataBean.getContent(), NewsMultiArticleDataBean.class);
+                            if (articleDataBean.getSource() != null)
+                                dataBeans.add(articleDataBean);
                         }
                         return Observable.fromIterable(dataBeans);
                     }

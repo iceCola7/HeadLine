@@ -20,4 +20,12 @@
     <string name="navigation_drawer_open">打开侧栏</string>
     <string name="navigation_drawer_close">关闭侧栏</string>
 
+    <!-- Item Drag -->
+    <string name="tip_drag">长按编辑,拖拽排序</string>
+    <string name="my_cahnnel">我的频道</string>
+    <string name="other_channel">隐藏频道</string>
+    <string name="edit">编辑</string>
+    <string name="finish">完成</string>
+    <string name="select_channel">选择频道</string>
+
 </resources>
