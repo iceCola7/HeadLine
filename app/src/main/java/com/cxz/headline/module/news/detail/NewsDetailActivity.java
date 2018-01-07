@@ -3,6 +3,7 @@ package com.cxz.headline.module.news.detail;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -13,6 +14,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
@@ -30,6 +33,7 @@ import com.cxz.headline.common.Constant;
 import com.cxz.headline.di.component.DaggerNewsDetailActivityComponent;
 import com.cxz.headline.di.module.NewsDetailActivityModule;
 import com.cxz.headline.util.SettingUtil;
+import com.cxz.headline.util.ShareUtil;
 import com.cxz.headline.util.imageloader.ImageLoader;
 import com.cxz.headline.util.imageloader.ImageOptions;
 import com.cxz.headline.util.imageloader.glide.GlideImageOptions;
@@ -276,5 +280,33 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter> implem
             }
             mWebView.loadUrl(shareUrl);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_news_detail, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
+        } else if (id == R.id.action_open_comment) {
+            // TODO: 2018/1/7
+            return true;
+        } else if (id == R.id.action_open_media_home) {
+            // TODO: 2018/1/7
+            return true;
+        } else if (id == R.id.action_share) {
+            ShareUtil.send(this, title + "\n" + shareUrl);
+            return true;
+        } else if (id == R.id.action_open_in_browser) {
+            startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(shareUrl)));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

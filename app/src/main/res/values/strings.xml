@@ -15,6 +15,9 @@
     <!-- Menu Action -->
     <string name="action_search">搜索</string>
     <string name="action_share">分享</string>
+    <string name="action_open_comment">查看评论</string>
+    <string name="action_open_media_home">查看此头条号主页</string>
+    <string name="action_open_in_browser">在浏览器打开</string>
 
     <!-- Nav -->
     <string name="navigation_drawer_open">打开侧栏</string>
