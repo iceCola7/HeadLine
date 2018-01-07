@@ -3,6 +3,7 @@ package com.cxz.headline.module.news.detail;
 import android.text.TextUtils;
 
 import com.cxz.headline.base.mvp.BasePresenter;
+import com.cxz.headline.base.mvp.IModel;
 import com.cxz.headline.bean.news.NewsContentBean;
 import com.cxz.headline.bean.news.NewsMultiArticleDataBean;
 import com.cxz.headline.http.RetrofitHelper;
@@ -27,11 +28,11 @@ import retrofit2.Response;
  * Created by chenxz on 2018/1/6.
  */
 
-public class NewsDetailPresenter extends BasePresenter<NewsDetailContract.Model, NewsDetailContract.View> implements NewsDetailContract.Presenter {
+public class NewsDetailPresenter extends BasePresenter<IModel, NewsDetailContract.View> implements NewsDetailContract.Presenter {
 
     @Inject
-    public NewsDetailPresenter(NewsDetailContract.Model model, NewsDetailContract.View view) {
-        super(model, view);
+    public NewsDetailPresenter(NewsDetailContract.View view) {
+        super(view);
     }
 
     @Override

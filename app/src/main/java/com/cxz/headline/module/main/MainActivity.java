@@ -19,6 +19,7 @@ import com.cxz.headline.base.BaseActivity;
 import com.cxz.headline.di.component.DaggerMainActivityComponent;
 import com.cxz.headline.di.module.MainActivityModule;
 import com.cxz.headline.module.news.main.NewsMainFragment;
+import com.cxz.headline.module.video.VideoMainFragment;
 import com.cxz.headline.widget.helper.BottomNavigationViewHelper;
 
 import butterknife.BindView;
@@ -40,6 +41,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     NavigationView mNavigationView;
 
     private NewsMainFragment mNewsMainFragment;
+    private VideoMainFragment mVideoMainFragment;
     private int mPosition = -1;
 
     @Override
@@ -58,6 +60,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 switch (item.getItemId()) {
                     case R.id.action_news:
                         showFragment(FRAGMENT_NEWS);
+                        break;
+                    case R.id.action_video:
+                        showFragment(FRAGMENT_VIDEO);
                         break;
                 }
                 return true;
@@ -112,6 +117,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     ft.show(mNewsMainFragment);
                 }
                 break;
+            case FRAGMENT_VIDEO:
+                mToolbar.setTitle(R.string.title_video);
+                if (mVideoMainFragment == null) {
+                    mVideoMainFragment = VideoMainFragment.newInstance();
+                    ft.add(R.id.container, mVideoMainFragment, VideoMainFragment.class.getName());
+                } else {
+                    ft.show(mVideoMainFragment);
+                }
+                break;
         }
         ft.commit();
     }
@@ -120,6 +134,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         // 如果不为空，就先隐藏起来
         if (mNewsMainFragment != null) {
             ft.hide(mNewsMainFragment);
+        }
+        if (mVideoMainFragment != null) {
+            ft.hide(mVideoMainFragment);
         }
     }
 

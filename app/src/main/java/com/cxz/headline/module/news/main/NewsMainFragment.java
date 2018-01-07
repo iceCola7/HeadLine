@@ -47,13 +47,13 @@ public class NewsMainFragment extends BaseFragment<NewsMainPresenter> implements
     // 用来存放 Fragment，以便下次直接取
     private HashMap<String, Fragment> mHashMap = new HashMap<>();
 
-//    private static NewsMainFragment instance;
+    private static NewsMainFragment instance;
 
     public static NewsMainFragment newInstance() {
-//        if (instance == null) {
-//            instance = new NewsMainFragment();
-//        }
-        return new NewsMainFragment();
+        if (instance == null) {
+            instance = new NewsMainFragment();
+        }
+        return instance;
     }
 
     @Override

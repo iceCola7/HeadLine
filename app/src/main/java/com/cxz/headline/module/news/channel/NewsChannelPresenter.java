@@ -1,6 +1,7 @@
 package com.cxz.headline.module.news.channel;
 
 import com.cxz.headline.base.mvp.BasePresenter;
+import com.cxz.headline.base.mvp.IModel;
 import com.cxz.headline.bean.news.NewsChannelBean;
 import com.cxz.headline.database.dao.NewsChannelDao;
 import com.cxz.headline.event.ChannelEvent;
@@ -15,13 +16,13 @@ import javax.inject.Inject;
  * Created by chenxz on 2018/1/6.
  */
 
-public class NewsChannelPresenter extends BasePresenter<NewsChannelContract.Model, NewsChannelContract.View> implements NewsChannelContract.Presenter {
+public class NewsChannelPresenter extends BasePresenter<IModel, NewsChannelContract.View> implements NewsChannelContract.Presenter {
 
     private NewsChannelDao mDao;
 
     @Inject
-    public NewsChannelPresenter(NewsChannelContract.Model model, NewsChannelContract.View view) {
-        super(model, view);
+    public NewsChannelPresenter(NewsChannelContract.View view) {
+        super(view);
         mDao = new NewsChannelDao();
     }
 

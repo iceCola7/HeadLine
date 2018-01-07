@@ -1,6 +1,5 @@
 package com.cxz.headline.module.news.detail;
 
-import com.cxz.headline.base.mvp.IModel;
 import com.cxz.headline.base.mvp.IPresenter;
 import com.cxz.headline.base.mvp.IView;
 import com.cxz.headline.bean.news.NewsMultiArticleDataBean;
@@ -18,10 +17,6 @@ public interface NewsDetailContract {
 
     interface Presenter extends IPresenter {
         void loadDetailData(NewsMultiArticleDataBean bean);
-    }
-
-    interface Model extends IModel {
-
     }
 
 }

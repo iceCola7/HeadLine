@@ -1,6 +1,5 @@
 package com.cxz.headline.module.news.main;
 
-import com.cxz.headline.base.mvp.IModel;
 import com.cxz.headline.base.mvp.IPresenter;
 import com.cxz.headline.base.mvp.IView;
 import com.cxz.headline.bean.news.NewsChannelBean;
@@ -19,11 +18,8 @@ public interface NewsMainContract {
 
     interface Presenter extends IPresenter {
         List<NewsChannelBean> getChannelBeans(boolean isEnable);
+
         void initChannelData();
-    }
-
-    interface Model extends IModel {
-
     }
 
 }

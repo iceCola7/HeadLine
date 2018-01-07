@@ -2,7 +2,6 @@ package com.cxz.headline.di.module;
 
 import com.cxz.headline.di.scope.FragmentScope;
 import com.cxz.headline.module.news.main.NewsMainContract;
-import com.cxz.headline.module.news.main.NewsMainModel;
 
 import dagger.Module;
 import dagger.Provides;
@@ -23,12 +22,6 @@ public class NewsMainFragmentModule {
     @Provides
     NewsMainContract.View provideNewsMainView() {
         return this.view;
-    }
-
-    @FragmentScope
-    @Provides
-    NewsMainContract.Model provideNewsMainModel(NewsMainModel model) {
-        return model;
     }
 
 }
