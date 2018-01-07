@@ -2,7 +2,7 @@ package com.cxz.headline.di.component;
 
 import com.cxz.headline.di.module.VideoMainFragmentModule;
 import com.cxz.headline.di.scope.FragmentScope;
-import com.cxz.headline.module.video.VideoMainFragment;
+import com.cxz.headline.module.video.main.VideoMainFragment;
 
 import dagger.Component;
 

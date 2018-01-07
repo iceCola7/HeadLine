@@ -19,7 +19,7 @@ import com.cxz.headline.base.BaseActivity;
 import com.cxz.headline.di.component.DaggerMainActivityComponent;
 import com.cxz.headline.di.module.MainActivityModule;
 import com.cxz.headline.module.news.main.NewsMainFragment;
-import com.cxz.headline.module.video.VideoMainFragment;
+import com.cxz.headline.module.video.main.VideoMainFragment;
 import com.cxz.headline.widget.helper.BottomNavigationViewHelper;
 
 import butterknife.BindView;

@@ -1,7 +1,7 @@
 package com.cxz.headline.di.module;
 
 import com.cxz.headline.di.scope.FragmentScope;
-import com.cxz.headline.module.video.VideoMainContract;
+import com.cxz.headline.module.video.main.VideoMainContract;
 
 import dagger.Module;
 import dagger.Provides;

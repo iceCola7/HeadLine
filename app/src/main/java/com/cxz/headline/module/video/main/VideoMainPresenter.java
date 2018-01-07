@@ -1,4 +1,4 @@
-package com.cxz.headline.module.video;
+package com.cxz.headline.module.video.main;
 
 import com.cxz.headline.base.mvp.BasePresenter;
 import com.cxz.headline.base.mvp.IModel;

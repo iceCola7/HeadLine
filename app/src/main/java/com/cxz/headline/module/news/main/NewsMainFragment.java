@@ -137,14 +137,16 @@ public class NewsMainFragment extends BaseFragment<NewsMainPresenter> implements
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-//        instance = null;
-    }
-
-    @Override
     public void updateChannel() {
         initTabs();
         mAdapter.recreateItems(mFragmentLists, mTitleLists);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (instance != null) {
+            instance = null;
+        }
     }
 }
