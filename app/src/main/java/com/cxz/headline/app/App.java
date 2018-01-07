@@ -1,5 +1,6 @@
 package com.cxz.headline.app;
 
+import android.content.Context;
 import android.support.multidex.MultiDexApplication;
 import android.support.v7.app.AppCompatDelegate;
 
@@ -21,15 +22,21 @@ public class App extends MultiDexApplication {
 
     private static App instance;
     public static AppComponent appComponent = null;
+    private static Context mContext;
 
     public static synchronized App getInstance() {
         return instance;
+    }
+
+    public static synchronized Context getContext() {
+        return mContext;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
+        mContext = getApplicationContext();
         init();
     }
 

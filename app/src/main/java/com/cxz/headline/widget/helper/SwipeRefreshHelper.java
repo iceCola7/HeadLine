@@ -1,4 +1,4 @@
-package com.cxz.headline.util;
+package com.cxz.headline.widget.helper;
 
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;

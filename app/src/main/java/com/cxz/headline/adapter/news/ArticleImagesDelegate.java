@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.cxz.headline.R;
 import com.cxz.headline.bean.news.NewsMultiArticleDataBean;
+import com.cxz.headline.module.news.detail.NewsDetailActivity;
 import com.cxz.headline.util.ShareUtil;
 import com.cxz.headline.util.TimeUtil;
 import com.cxz.headline.util.imageloader.ImageLoader;
@@ -16,6 +17,11 @@ import com.cxz.headline.util.imageloader.ImageOptions;
 import com.cxz.headline.util.imageloader.glide.GlideImageOptions;
 import com.cxz.xrecyclerview.adapter.base.BaseItemDelegate;
 import com.cxz.xrecyclerview.adapter.base.BaseViewHolder;
+import com.jakewharton.rxbinding2.view.RxView;
+
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by chenxz on 2017/12/23.
@@ -60,15 +66,27 @@ public class ArticleImagesDelegate implements BaseItemDelegate<NewsMultiArticleD
 
         ImageView imageView = holder.getView(R.id.imageView);
         imageView.setVisibility(View.GONE);
+
         if (bean.getImage_list() != null && bean.getImage_list().size() > 0) {
             imageView.setVisibility(View.VISIBLE);
             NewsMultiArticleDataBean.ImageListBean imageBean = bean.getImage_list().get(0);
+            final String imgUrl = imageBean.getUrl();
             options = GlideImageOptions.builder()
-                    .url(imageBean.getUrl())
+                    .url(imgUrl)
                     .placeholder(R.mipmap.ic_default_pic)
                     .imageView(imageView)
                     .build();
             ImageLoader.getInstance().loadImage(mContext, options);
+
+            RxView.clicks(holder.getItemView())
+                    .throttleFirst(1, TimeUnit.SECONDS)
+                    .subscribe(new Consumer<Object>() {
+                        @Override
+                        public void accept(Object o) throws Exception {
+                            NewsDetailActivity.launch(bean, imgUrl);
+                        }
+                    });
+
 //            List<ImageInfo> imageInfos = new ArrayList<>();
 //            ImageInfo imageInfo = new ImageInfo();
 //            for (int i = 0; i < bean.getImage_list().size(); i++) {
@@ -100,23 +118,25 @@ public class ArticleImagesDelegate implements BaseItemDelegate<NewsMultiArticleD
         }
 
         final ImageView iv_dots = holder.getView(R.id.iv_dots);
-        iv_dots.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(mContext, iv_dots, Gravity.END, 0, R.style.MyPopupMenu);
-                popupMenu.inflate(R.menu.menu_share);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        RxView.clicks(iv_dots)
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .subscribe(new Consumer<Object>() {
                     @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        int itemId = item.getItemId();
-                        if (itemId == R.id.action_share) {
-                            ShareUtil.send(mContext, title + "\n" + bean.getShare_url());
-                        }
-                        return false;
+                    public void accept(Object o) throws Exception {
+                        PopupMenu popupMenu = new PopupMenu(mContext, iv_dots, Gravity.END, 0, R.style.MyPopupMenu);
+                        popupMenu.inflate(R.menu.menu_share);
+                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                int itemId = item.getItemId();
+                                if (itemId == R.id.action_share) {
+                                    ShareUtil.send(mContext, title + "\n" + bean.getShare_url());
+                                }
+                                return false;
+                            }
+                        });
+                        popupMenu.show();
                     }
                 });
-                popupMenu.show();
-            }
-        });
     }
 }

@@ -1,4 +1,4 @@
-package com.cxz.headline.widget.helper;
+package com.cxz.headline.callbacks;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;

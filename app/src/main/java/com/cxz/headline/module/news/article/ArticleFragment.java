@@ -11,10 +11,11 @@ import com.cxz.headline.bean.news.NewsMultiArticleDataBean;
 import com.cxz.headline.di.component.DaggerArticleFragmentComponent;
 import com.cxz.headline.di.module.ArticleFragmentModule;
 import com.cxz.headline.util.SnackbarUtil;
-import com.cxz.headline.util.SpaceItemDecoration;
+import com.cxz.headline.widget.SpaceItemDecoration;
 import com.cxz.headline.util.TimeUtil;
 import com.cxz.xrecyclerview.XRecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -85,6 +86,12 @@ public class ArticleFragment extends BaseFragment<ArticlePresenter> implements A
         mRecyclerView.setLinearLayout();
         mRecyclerView.getRecyclerView().addItemDecoration(new SpaceItemDecoration(mContext));
         mRecyclerView.setOnPullLoadMoreListener(this);
+
+        List<NewsMultiArticleDataBean> lists = new ArrayList<>();
+        mAdapter = new ArticleMultiListAdapter(mContext, lists);
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -96,13 +103,7 @@ public class ArticleFragment extends BaseFragment<ArticlePresenter> implements A
     @Override
     public void updateNewsArticleList(List<NewsMultiArticleDataBean> lists) {
         hideLoading();
-        if (mAdapter == null) {
-            mAdapter = new ArticleMultiListAdapter(mContext, lists);
-            mRecyclerView.setAdapter(mAdapter);
-            mAdapter.notifyDataSetChanged();
-        } else {
-            mAdapter.setDatas(lists);
-        }
+        mAdapter.setDatas(lists);
     }
 
     @Override

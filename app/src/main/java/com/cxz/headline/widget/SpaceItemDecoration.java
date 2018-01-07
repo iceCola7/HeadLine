@@ -1,4 +1,4 @@
-package com.cxz.headline.util;
+package com.cxz.headline.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;

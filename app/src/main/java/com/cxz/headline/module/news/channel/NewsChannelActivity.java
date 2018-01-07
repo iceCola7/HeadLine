@@ -14,7 +14,7 @@ import com.cxz.headline.base.BaseActivity;
 import com.cxz.headline.bean.news.NewsChannelBean;
 import com.cxz.headline.di.component.DaggerNewsChannelActivityComponent;
 import com.cxz.headline.di.module.NewsChannelActivityModule;
-import com.cxz.headline.widget.helper.ItemDragHelperCallback;
+import com.cxz.headline.callbacks.ItemDragHelperCallback;
 
 import java.util.List;
 

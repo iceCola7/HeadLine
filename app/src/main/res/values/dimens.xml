@@ -12,4 +12,5 @@
     <dimen name="news_avatar_width">24dp</dimen>
     <dimen name="news_avatar_height">24dp</dimen>
 
+    <dimen name="appbar_layout_height">260dp</dimen>
 </resources>
