@@ -3,7 +3,7 @@ package com.cxz.headline.module.base;
 /**
  * Created by chenxz on 2017/11/25.
  */
-
+@Deprecated
 public interface IBasePresenter {
 
     /**

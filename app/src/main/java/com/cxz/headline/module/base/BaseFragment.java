@@ -17,7 +17,7 @@ import butterknife.Unbinder;
 /**
  * Created by chenxz on 2017/11/25.
  */
-
+@Deprecated
 public abstract class BaseFragment<T extends IBasePresenter> extends RxFragment implements IBaseView<T> {
 
     protected T presenter;

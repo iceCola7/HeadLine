@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
 /**
  * Created by chenxz on 2017/11/23.
  */
-
+@Deprecated
 public abstract class BaseActivity extends RxAppCompatActivity {
 
     private final static String TAG = "BaseActivity";

@@ -5,7 +5,7 @@ import com.trello.rxlifecycle2.LifecycleTransformer;
 /**
  * Created by chenxz on 2017/11/25.
  */
-
+@Deprecated
 public interface IBaseView<T> {
 
     /**
