@@ -85,6 +85,8 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.4.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
     //implementation 'com.lzy.widget:ninegridview:0.2.0'
+    // VideoPlayer
+    implementation 'cn.jzvd:jiaozivideoplayer:6.2.4'
 
     implementation project(':xrecyclerview')
 }
