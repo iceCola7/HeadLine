@@ -2,6 +2,7 @@ package com.cxz.headline.http.service;
 
 import com.cxz.headline.bean.news.NewsContentBean;
 import com.cxz.headline.bean.news.NewsMultiArticleBean;
+import com.cxz.headline.bean.video.VideoDetailBean;
 import com.cxz.headline.common.Constant;
 
 import io.reactivex.Observable;
@@ -42,4 +43,11 @@ public interface NewsService {
     @GET
     Observable<NewsContentBean> getNewsContent(@Url String url);
 
+    /**
+     * 获取视频信息
+     * Api 生成较复杂 详情查看
+     * http://ib.365yg.com/video/urls/v/1/toutiao/mp4/视频ID?r=17位随机数&s=加密结果
+     */
+    @GET
+    Observable<VideoDetailBean> getVideoDetail(@Url String url);
 }
