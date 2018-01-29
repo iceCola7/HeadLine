@@ -32,6 +32,7 @@ import com.cxz.headline.callbacks.AppBarStateChangeListener;
 import com.cxz.headline.common.Constant;
 import com.cxz.headline.di.component.DaggerNewsDetailActivityComponent;
 import com.cxz.headline.di.module.NewsDetailActivityModule;
+import com.cxz.headline.module.news.comment.NewsCommentActivity;
 import com.cxz.headline.util.SettingUtil;
 import com.cxz.headline.util.ShareUtil;
 import com.cxz.headline.util.imageloader.ImageLoader;
@@ -66,6 +67,8 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter> implem
     private String title;
     private boolean bHasImg;
     private String shareUrl;
+    private String groupId;
+    private String itemId;
 
     public static void launch(NewsMultiArticleDataBean dataBean) {
         launch(dataBean, "");
@@ -126,6 +129,8 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter> implem
     protected void initView(Bundle savedInstanceState) {
         Intent intent = getIntent();
         dataBean = intent.getParcelableExtra(BEAN);
+        groupId = String.valueOf(dataBean.getGroup_id());
+        itemId = String.valueOf(dataBean.getItem_id());
 
         mPresenter.loadDetailData(dataBean);
 
@@ -296,6 +301,8 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter> implem
             return true;
         } else if (id == R.id.action_open_comment) {
             // TODO: 2018/1/7
+            if (null != groupId)
+                NewsCommentActivity.launch(groupId, itemId);
             return true;
         } else if (id == R.id.action_open_media_home) {
             // TODO: 2018/1/7

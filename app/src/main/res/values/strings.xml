@@ -31,4 +31,11 @@
     <string name="finish">完成</string>
     <string name="select_channel">选择频道</string>
 
+    <!-- Bottom Sheet List -->
+    <string name="copy_content">复制内容</string>
+    <string name="share_content">分享内容</string>
+
+    <!-- View Action -->
+    <string name="copied_to_clipboard">复制成功</string>
+
 </resources>

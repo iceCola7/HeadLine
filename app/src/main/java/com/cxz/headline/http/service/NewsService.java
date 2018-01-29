@@ -1,5 +1,6 @@
 package com.cxz.headline.http.service;
 
+import com.cxz.headline.bean.news.NewsCommentBean;
 import com.cxz.headline.bean.news.NewsContentBean;
 import com.cxz.headline.bean.news.NewsMultiArticleBean;
 import com.cxz.headline.bean.video.VideoDetailBean;
@@ -42,6 +43,21 @@ public interface NewsService {
      */
     @GET
     Observable<NewsContentBean> getNewsContent(@Url String url);
+
+    /**
+     * 获取新闻评论
+     * 按热度排序
+     * http://is.snssdk.com/article/v53/tab_comments/?group_id=6314103921648926977&offset=0&tab_index=0
+     * 按时间排序
+     * http://is.snssdk.com/article/v53/tab_comments/?group_id=6314103921648926977&offset=0&tab_index=1
+     *
+     * @param groupId 新闻ID
+     * @param offset  偏移量
+     */
+    @GET("http://is.snssdk.com/article/v53/tab_comments/")
+    Observable<NewsCommentBean> getNewsComment(
+            @Query("group_id") String groupId,
+            @Query("offset") int offset);
 
     /**
      * 获取视频信息
