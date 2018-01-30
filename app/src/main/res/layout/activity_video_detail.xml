@@ -9,19 +9,13 @@
     <cn.jzvd.JZVideoPlayerStandard
         android:id="@+id/video_player"
         android:layout_width="match_parent"
-        android:layout_height="220dp"/>
+        android:layout_height="220dp" />
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/refresh_layout"
+    <com.cxz.xrecyclerview.XRecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_marginTop="200dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="196dp">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+        android:layout_height="match_parent" />
 
     <android.support.v4.widget.ContentLoadingProgressBar
         android:id="@+id/loading_progress"

@@ -13,8 +13,10 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.cxz.headline.R;
+import com.cxz.headline.adapter.news.NewsCommentAdapter;
 import com.cxz.headline.app.App;
 import com.cxz.headline.base.BaseActivity;
+import com.cxz.headline.bean.news.NewsCommentBean;
 import com.cxz.headline.bean.news.NewsMultiArticleDataBean;
 import com.cxz.headline.di.component.DaggerVideoDetailActivityComponent;
 import com.cxz.headline.di.module.VideoDetailActivityModule;
@@ -22,19 +24,22 @@ import com.cxz.headline.module.news.detail.NewsDetailActivity;
 import com.cxz.headline.util.SettingUtil;
 import com.cxz.headline.util.ShareUtil;
 import com.cxz.headline.util.imageloader.ImageLoader;
+import com.cxz.headline.widget.SpaceItemDecoration;
+import com.cxz.xrecyclerview.XRecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import cn.jzvd.JZVideoPlayer;
 import cn.jzvd.JZVideoPlayerStandard;
 
-public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> implements VideoDetailContract.View, SwipeRefreshLayout.OnRefreshListener {
+public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> implements VideoDetailContract.View, XRecyclerView.PullLoadMoreListener {
 
     private static String BEAN = "NewsMultiArticleDataBean";
 
-    @BindView(R.id.refresh_layout)
-    SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.recycler_view)
-    RecyclerView mRecyclerView;
+    XRecyclerView mRecyclerView;
     @BindView(R.id.loading_progress)
     ContentLoadingProgressBar loadingProgressBar;
     @BindView(R.id.fab)
@@ -49,9 +54,11 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> impl
     private String shareUrl;
 
     private NewsMultiArticleDataBean dataBean;
+    private NewsCommentAdapter mAdapter;
+    private boolean bLoadMore;
 
     public static void launch(NewsMultiArticleDataBean dataBean) {
-        App.getContext().startActivity(new Intent(App.getContext(), NewsDetailActivity.class)
+        App.getContext().startActivity(new Intent(App.getContext(), VideoDetailActivity.class)
                 .putExtra(BEAN, dataBean)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
@@ -59,17 +66,13 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> impl
     @Override
     public void showLoading() {
         loadingProgressBar.show();
+        mRecyclerView.setRefreshing(true);
     }
 
     @Override
     public void hideLoading() {
         loadingProgressBar.hide();
-        mRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mRefreshLayout.setRefreshing(false);
-            }
-        });
+        mRecyclerView.setPullLoadMoreCompleted();
     }
 
     @Override
@@ -79,7 +82,7 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> impl
 
     @Override
     public void showErrorMsg(String msg) {
-
+        hideLoading();
     }
 
     @Override
@@ -91,17 +94,16 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> impl
     protected void initView(Bundle savedInstanceState) {
         initData();
 
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setLinearLayout();
+        mRecyclerView.getRecyclerView().addItemDecoration(new SpaceItemDecoration(this));
+        mRecyclerView.setOnPullLoadMoreListener(this);
+        List<NewsCommentBean.DataBean.CommentBean> lists = new ArrayList<>();
+        mAdapter = new NewsCommentAdapter(this, R.layout.item_news_comment, lists);
+        mRecyclerView.setAdapter(mAdapter);
 
         int color = SettingUtil.getInstance().getColor();
         loadingProgressBar.getIndeterminateDrawable().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
         loadingProgressBar.show();
-
-        mPresenter.loadVideoDetailData(videoId);
-
-        mRefreshLayout.setColorSchemeColors(color);
-        mRefreshLayout.setOnRefreshListener(this);
 
         fab.setBackgroundTintList(ColorStateList.valueOf(color));
         fab.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +112,9 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> impl
                 ShareUtil.send(VideoDetailActivity.this, videoTitle + "\n" + shareUrl);
             }
         });
+
+        //mPresenter.loadCommentList(groupId, itemId);
+        //mPresenter.loadVideoDetailData(videoId);
 
     }
 
@@ -141,11 +146,6 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> impl
     }
 
     @Override
-    public void onRefresh() {
-
-    }
-
-    @Override
     public void onBackPressed() {
         if (JZVideoPlayer.backPress()) {
             return;
@@ -160,7 +160,30 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> impl
     }
 
     @Override
+    public void updateCommentList(List<NewsCommentBean.DataBean.CommentBean> commentBeans) {
+        hideLoading();
+        if (bLoadMore) {
+            mAdapter.appendDatas(commentBeans);
+        } else {
+            mAdapter.setDatas(commentBeans);
+        }
+        bLoadMore = false;
+    }
+
+    @Override
     public void setVideoUrl(String url) {
 
+    }
+
+    @Override
+    public void onRefresh() {
+        showLoading();
+        mPresenter.loadCommentList(groupId, itemId);
+    }
+
+    @Override
+    public void onLoadMore() {
+        bLoadMore = true;
+        mPresenter.loadMoreCommentList();
     }
 }
