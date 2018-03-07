@@ -6,9 +6,6 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.ContentLoadingProgressBar;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -20,7 +17,6 @@ import com.cxz.headline.bean.news.NewsCommentBean;
 import com.cxz.headline.bean.news.NewsMultiArticleDataBean;
 import com.cxz.headline.di.component.DaggerVideoDetailActivityComponent;
 import com.cxz.headline.di.module.VideoDetailActivityModule;
-import com.cxz.headline.module.news.detail.NewsDetailActivity;
 import com.cxz.headline.util.SettingUtil;
 import com.cxz.headline.util.ShareUtil;
 import com.cxz.headline.util.imageloader.ImageLoader;
@@ -113,8 +109,8 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> impl
             }
         });
 
-        //mPresenter.loadCommentList(groupId, itemId);
-        //mPresenter.loadVideoDetailData(videoId);
+        mPresenter.loadCommentList(groupId, itemId);
+        mPresenter.loadVideoDetailData(videoId);
 
     }
 
@@ -172,6 +168,7 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> impl
 
     @Override
     public void setVideoUrl(String url) {
+        mJZVideoPlayer.setUp(url, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, videoTitle);
 
     }
 
